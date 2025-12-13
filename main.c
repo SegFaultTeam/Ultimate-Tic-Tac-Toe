@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h> //for usleep func
+#include <stdbool.h>
 typedef enum{
     X,
     O,
@@ -25,7 +27,7 @@ typedef struct{
     size_t next_row, next_col;
 }big_board;
 
-void init(big_board * board) {
+void init(big_board * board) { //initting board with EMPTY type
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
@@ -36,7 +38,7 @@ void init(big_board * board) {
 }
     }
 }
-void draw(big_board board) {
+void draw(big_board board) { // console version of drawing func
     system("clear");
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {

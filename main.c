@@ -5,6 +5,7 @@
 #include <time.h>
 #include <unistd.h> //for usleep func
 #include <stdbool.h>
+#include "raylib.h"
 typedef enum{
     X,
     O,

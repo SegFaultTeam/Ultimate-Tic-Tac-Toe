@@ -236,7 +236,6 @@ else { //second case if computer is limited in one particular board
         
     }
     
-
     for(int smallCol = 0; smallCol < 3; smallCol++) { //searching in col for two O or X
         int emptyRow = -1;
         int countComp = 0;

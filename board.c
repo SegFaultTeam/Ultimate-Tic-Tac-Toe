@@ -76,4 +76,7 @@ printf("--------------+----------------+--------------\n");
     }
 
 }
-
+tic_tac_toe invert_symbol(tic_tac_toe s) {
+    if (s == X) return O;
+    if (s == O) return X;
+}

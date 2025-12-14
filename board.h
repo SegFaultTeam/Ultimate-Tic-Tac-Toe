@@ -1,3 +1,6 @@
+#ifndef BOARD_H
+#define BOARD_H
+
 /* cell state */
 typedef enum {
     X,
@@ -42,3 +45,4 @@ void init(big_board *board);
 void draw(big_board board);
 
 tic_tac_toe invert_symbol(tic_tac_toe s);
+#endif /* BOARD_H */

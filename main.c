@@ -14,13 +14,13 @@ int main(void) {
     def_for_user gamer;
     while (!game_over){
         if(first_move){ //we throw a coin
-            int coin = random(EAGLE, TAILS); 
+            int coin = random(0, 1); 
             char c = read_char("Please choose (T)ails or (E)agle: ");
-            if(coin == EAGLE && (c == 'e' || c == 'E')){
+            if(coin == 0 && (c == 'e' || c == 'E')){
                 printf("YOU CHOOSE EAGLE AND EAGLE DROPPED, YOU WIN COIN!!!!\n");
                 gamer.user = player_1;
                 gamer.symbol = X;
-            }else if(coin == TAILS && (c == 't' || c == 'T')){
+            }else if(coin == 1 && (c == 't' || c == 'T')){
                 printf("YOU CHOOSE TAILS AND TAILS DROPPED, YOU WIN COIN!!!!\n");
                 gamer.user = player_1;
                 gamer.symbol = X;
@@ -38,7 +38,7 @@ int main(void) {
             if (bigBoard.next_col == -1 && bigBoard.next_row == -1) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%ld][%ld], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
             }           
             printf("%s", prompt); 
             while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
@@ -47,7 +47,7 @@ int main(void) {
             }
             if(check_win(&bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
+                if(check_full(&bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
             draw(bigBoard);
@@ -55,7 +55,7 @@ int main(void) {
             draw(bigBoard);
             if(check_win(&bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
+                if(check_full(&bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
         }else{
@@ -63,13 +63,13 @@ int main(void) {
             draw(bigBoard);
             if(check_win(&bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
+                if(check_full(&bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
             if (bigBoard.next_col == -1 && bigBoard.next_row == -1) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%ld][%ld], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
             }           
             printf("%s", prompt); 
             while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
@@ -79,7 +79,7 @@ int main(void) {
             draw(bigBoard);
             if(check_win(&bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
+                if(check_full(&bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
         

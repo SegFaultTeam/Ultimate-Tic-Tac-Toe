@@ -29,7 +29,7 @@ bool check_win(big_board *board){
     return false;
 }
 
-tic_tac_toe check_full(const big_board board){
+tic_tac_toe check_full(const big_board *board){
     if(board->boards[1][1].winner != EMPTY){
         if(board->boards[0][0].winner == board->boards[1][1].winner && board->boards[1][1].winner == board->boards[2][2].winner) return board->boards[1][1].winner;
         else if(board->boards[0][2].winner == board->boards[1][1].winner && board->boards[1][1].winner == board->boards[2][0].winner) return board->boards[1][1].winner;

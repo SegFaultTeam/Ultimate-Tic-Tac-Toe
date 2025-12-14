@@ -18,7 +18,7 @@ static void seed_prng(void) {
   }
 }
 
-int random(int minimum, int maxaimum) {
+int randkom(int minimum, int maxaimum) {
   seed_prng();
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }

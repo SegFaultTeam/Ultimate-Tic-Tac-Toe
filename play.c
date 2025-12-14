@@ -28,6 +28,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
     if(board->next_col == -1 && board->next_row == -1) { //first case if computer is not limited
         if(board->boards[1][1].cells[1][1] == EMPTY) { //checking if center is empty
             board->boards[1][1].cells[1][1] = comp;
+            board->next_col = 1;
+            board->next_row = 1;
             return;
         }
 
@@ -36,6 +38,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
             int bigCols = corners[i][1];
             if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
                 board->boards[bigRows][bigCols].cells[1][1] = comp;
+                board->next_col = 1;
+                board->next_row = 1;
                 return;
             }
         } 
@@ -43,6 +47,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
             for(int bigCols = 0; bigCols < 3; bigCols++) {
                 if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
                     board->boards[bigRows][bigCols].cells[1][1] = comp;
+                    board->next_row = 1;
+                    board->next_col = 1;
                     return;
                 }
             }
@@ -55,6 +61,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     int cols = corners[i][1];
                     if(board->boards[bigRows][bigCols].cells[rows][cols] == EMPTY) {
                         board->boards[bigRows][bigCols].cells[rows][cols] = comp;
+                        board->next_col = cols;
+                        board->next_row = rows;
                         return;
                     }
                 }
@@ -67,6 +75,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     for(int smallCols = 0; smallCols < 3; smallCols++){
                         if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
+                            board->next_row = smallRows;
+                            board->next_col = smallCols;
                             return;
                         }
                     }
@@ -79,6 +89,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
     else { //second case if computer is limited in one particular board
         if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY) { //searching for center as second priority
             board->boards[board->next_row][board->next_col].cells[1][1] = comp;
+            board->next_row = 1;
+            board->next_col = 1;
             return;
         }
        
@@ -87,6 +99,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
             int cols = corners[i][1];
             if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
                 board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
+                board->next_row = rows;
+                board->next_col = cols;
                 return;
             } 
         }
@@ -94,6 +108,8 @@ void fallback(big_board * board, tic_tac_toe comp) {
             for(int cols = 0; cols < 3; cols++) {
                 if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
+                    board->next_row = rows;
+                    board->next_col = cols;
                     return;
                 }
             }
@@ -126,11 +142,11 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
 
                     if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
+                        board->next_row = emptyRow;
+                        board->next_col = emptyCol;
                         return;
                     }
                 }
-            
-
                 for(int smallCol = 0; smallCol < 3; smallCol++) { //first case, searching if in col there are two X or O, setting this as a priority one
                     int countComp = 0;
                     int countUser = 0;
@@ -146,12 +162,14 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
 
                     if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                         board->boards[bigRow][bigCol].cells[emptyRow][smallCol] = comp;
+                        board->next_row = emptyRow;
+                        board->next_col = smallCol;
                         return;
                     }
                 }
             //first case, searching if in diagonale there are two X or O, setting this as a priority one
 
-            int emptyRow = -1;
+                int emptyRow = -1;
                 int emptyCol = -1;
                 int countComp = 0;
                 int countUser = 0;
@@ -167,6 +185,8 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
 
             if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = emptyCol;
                 return;
             }
 
@@ -185,6 +205,8 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
 
             if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = emptyCol;
                 return;
             }
         }
@@ -207,6 +229,8 @@ else { //second case if computer is limited in one particular board
 
             if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = emptyCol;
                 return;
             }
         
@@ -226,6 +250,8 @@ else { //second case if computer is limited in one particular board
         }
         if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][smallCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = smallCol;
                 return;
             }
     }
@@ -246,6 +272,8 @@ else { //second case if computer is limited in one particular board
 
             if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = emptyCol;
                 return;
             }
 
@@ -264,6 +292,8 @@ else { //second case if computer is limited in one particular board
 
             if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                board->next_row = emptyRow;
+                board->next_col = emptyCol;
                 return;
             }
 

@@ -23,18 +23,66 @@ int random(int minimum, int maxaimum) {
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }
 
-void fallback(big_board * board, tic_tac_toe comp) {
-    if(board->next_col == -1 && board->next_row == -1) {
-        return;
+void fallback(big_board * board, tic_tac_toe comp) { 
+    int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
+    if(board->next_col == -1 && board->next_row == -1) { //first case if computer is not limited
+        if(board->boards[1][1].cells[1][1] == EMPTY) { //checking if center is empty
+            board->boards[1][1].cells[1][1] = comp;
+            return;
+        }
+
+        for(int i = 0; i<4; i++) { //checking for big corners
+            int bigRows = corners[i][0];
+            int bigCols = corners[i][1];
+            if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
+                board->boards[bigRows][bigCols].cells[1][1] = comp;
+                return;
+            }
+        } 
+        for(int bigRows = 0; bigRows < 3; bigRows++) { //checking for centers in small squares
+            for(int bigCols = 0; bigCols < 3; bigCols++) {
+                if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
+                    board->boards[bigRows][bigCols].cells[1][1] = comp;
+                    return;
+                }
+            }
+        }
+
+        for(int bigRows = 0; bigRows < 3; bigRows++) { //checking for small corners
+            for(int bigCols = 0; bigCols < 3; bigCols++) {
+                for(int i = 0; i < 4; i++) {
+                    int rows = corners[i][0];
+                    int cols = corners[i][1];
+                    if(board->boards[bigRows][bigCols].cells[rows][cols] == EMPTY) {
+                        board->boards[bigRows][bigCols].cells[rows][cols] = comp;
+                        return;
+                    }
+                }
+            }
+        }
+
+          for(int bigRows = 0; bigRows < 3; bigRows++) { //picking first non empty
+            for(int bigCols = 0; bigCols < 3; bigCols++) {
+                for(int smallRows = 0; smallRows < 3; smallRows++) {
+                    for(int smallCols = 0; smallCols < 3; smallCols++){
+                        if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY) {
+                            board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
+                            return;
+                        }
+                    }
+                }
+            }
+            
+        }
     }
 
-    else {
-        if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY) {
+    else { //second case if computer is limited in one particular board
+        if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY) { //searching for center as second priority
             board->boards[board->next_row][board->next_col].cells[1][1] = comp;
             return;
         }
-        int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
-        for(int i = 0; i < 4; i++) {
+       
+        for(int i = 0; i < 4; i++) { //searching for corners as third priority
             int rows = corners[i][0];
             int cols = corners[i][1];
             if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
@@ -42,7 +90,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 return;
             } 
         }
-        for(int rows = 0 ; rows < 3; rows++) {
+        for(int rows = 0 ; rows < 3; rows++) { //in other cases marking first non-empty place
             for(int cols = 0; cols < 3; cols++) {
                 if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
@@ -57,11 +105,11 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
 
     tic_tac_toe user = comp == O ? X : O;
 
-    if(board->next_col == -1 && board->next_row == -1) {
+    if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board
         for(int bigRow = 0; bigRow < 3; bigRow++) {
                 for(int bigCol = 0; bigCol < 3; bigCol++) {
                     
-                    for(int smallRow = 0; smallRow < 3; smallRow++) {
+                    for(int smallRow = 0; smallRow < 3; smallRow++) { //first case, searching if in row there are two X or O, setting this as a priority one
                          int emptyRow = -1;
                         int emptyCol = -1;
                         int countComp = 0;
@@ -83,7 +131,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 }
             
 
-                for(int smallCol = 0; smallCol < 3; smallCol++) {
+                for(int smallCol = 0; smallCol < 3; smallCol++) { //first case, searching if in col there are two X or O, setting this as a priority one
                     int countComp = 0;
                     int countUser = 0;
                     int emptyRow = -1;
@@ -101,14 +149,14 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         return;
                     }
                 }
-            
+            //first case, searching if in diagonale there are two X or O, setting this as a priority one
 
             int emptyRow = -1;
                 int emptyCol = -1;
                 int countComp = 0;
                 int countUser = 0;
 
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 3; i++) { 
                 if(board->boards[bigRow][bigCol].cells[i][i] == EMPTY) {
                     emptyRow = i;
                     emptyCol = i;
@@ -142,13 +190,13 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
         }
     }
 }
-else {
+else { //second case if computer is limited in one particular board
     for(int smallRow = 0; smallRow < 3; smallRow++) {
         int emptyCol = -1;
         int countComp = 0;
         int countUser = 0;
         int emptyRow = -1;
-        for(int smallCol = 0; smallCol < 3; smallCol++) {
+        for(int smallCol = 0; smallCol < 3; smallCol++) { //searching in row for two O or X
             if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == EMPTY) {
                 emptyCol = smallCol;
                 emptyRow = smallRow;
@@ -165,7 +213,7 @@ else {
     }
     
 
-    for(int smallCol = 0; smallCol < 3; smallCol++) {
+    for(int smallCol = 0; smallCol < 3; smallCol++) { //searching in col for two O or X
         int emptyRow = -1;
         int countComp = 0;
         int countUser = 0;
@@ -186,7 +234,7 @@ else {
                 int emptyCol = -1;
                 int countComp = 0;
                 int countUser = 0;
-
+    //searching for two X or O in diagonale
             for(int i = 0; i < 3; i++) {
                 if(board->boards[board->next_row][board->next_col].cells[i][i] == EMPTY) {
                     emptyRow = i;
@@ -218,6 +266,8 @@ else {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 return;
             }
+
+            //if there are none, calling fallback
             fallback(board, comp);
 }
 }

@@ -1,11 +1,13 @@
 #include <stdio.h>
-#   include "board.h"
+#include "board.h"
 #include <stdbool.h>
 #include "talking_with_user.h"
 #include "play.h"
+#include "check_conditions.h"
 
 int main(void) {
     big_board bigBoard;
+    size_t count_wins;
     bool game_over = false;
     bool first_move = true;
     char prompt[128];
@@ -28,6 +30,7 @@ int main(void) {
                 gamer.symbol = O;
             }
             init(&bigBoard);
+            count_wins = 0;
             draw(bigBoard);
         }
         first_move = false;
@@ -42,20 +45,26 @@ int main(void) {
                 printf("We think your choise is incorrect, try again: ");
                 printf("%s", prompt);
             }
-            draw(bigBoard);
-            check_win();
-            if(check_full_win()){ // ask user to play again or break
-
+            if(check_win(&bigBoard)){
+                count_wins++;
+                if(check_full(bigBoard) != EMPTY) return 52;
+                if(count_wins == 9) return 333939;
             }
-            computer_logic(&bigBoard, invert_symbol(gamer.symbol));
             draw(bigBoard);
-            check_win();
-            if(check_full_win()){ // ask user to play again or break
+               computer_logic(&bigBoard, invert_symbol(gamer.symbol));
+            draw(bigBoard);
+            if(check_win(&bigBoard)){
+                count_wins++;
+                if(check_full(bigBoard) != EMPTY) return 52;
+                if(count_wins == 9) return 333939;
+            }
         }else{
             computer_logic(&bigBoard, invert_symbol(gamer.symbol));
             draw(bigBoard);
-            check_win();
-            if(check_full_win()){ // ask user to play again or break
+            if(check_win(&bigBoard)){
+                count_wins++;
+                if(check_full(bigBoard) != EMPTY) return 52;
+                if(count_wins == 9) return 333939;
             }
             if (bigBoard.next_col == -1 && bigBoard.next_row == -1) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
@@ -68,10 +77,12 @@ int main(void) {
                 printf("%s", prompt);
             }
             draw(bigBoard);
-            check_win();
-            if(check_full_win()){ // ask user to play again or break
+            if(check_win(&bigBoard)){
+                count_wins++;
+                if(check_full(bigBoard) != EMPTY) return 52;
+                if(count_wins == 9) return 333939;
             }
-        }
+        
     }
     return 0;
 }

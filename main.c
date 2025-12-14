@@ -4,7 +4,7 @@
 #include "talking_with_user.h"
 #include "play.h"
 #include "check_conditions.h"
-
+#include <unistd.h>
 int main(void) {
     big_board bigBoard;
     size_t count_wins;
@@ -31,6 +31,7 @@ int main(void) {
                 gamer.symbol = O;
             }
             count_wins = 0;
+            usleep(5000000);
             draw(bigBoard);
         }
         first_move = false;

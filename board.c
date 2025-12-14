@@ -48,22 +48,36 @@ void init(big_board * board, small_board * smallBoard) { //initting board with E
     board->next_col = -1;
     board->next_row = -1;
 }
-
+void print_big_x(int row) {
+    if(row == 0) printf("   X     X  ");
+    if(row == 1) printf("      X     ");
+    if(row == 2) printf("   X     X  ");
+}
+void print_big_o(int row) {
+    if(row == 0) printf("    OOO    ");
+    if(row == 1) printf("    O O    ");
+    if(row == 2) printf("    OOO    ");
+}
 void draw(big_board board) { // console version of drawing func
     system("clear");
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
+        if(board.boards[bigRow][bigCol].winner != EMPTY) {
+            board.boards[bigRow][bigCol].winner == X ? print_big_x(smallRow) : print_big_o(smallRow);
+            
+        } else {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
             tic_tac_toe c = board.boards[bigRow][bigCol].cells[smallRow][smallCol]; 
             if(c == EMPTY) {
                 printf("(%02d)", bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
             } 
             else {  
-                printf(" %c ", c == X ? 'X' : 'O');
+                printf("%2s", c == X ? " X  " : " O  ");
             }
             
         }
+    }
         if(bigCol < 2) {
         printf("  |  ");
         }

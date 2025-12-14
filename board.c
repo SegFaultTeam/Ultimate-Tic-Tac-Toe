@@ -39,6 +39,8 @@ void init(big_board * board) { //initting board with EMPTY type
     }
 }
     }
+    board->next_col = -1;
+    board->next_row = -1;
 }
 
 void draw(big_board board) { // console version of drawing func

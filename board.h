@@ -40,3 +40,5 @@ void init(big_board *board);
  * @param board Game board
  */
 void draw(big_board board);
+
+tic_tac_toe invert_symbol(tic_tac_toe s);

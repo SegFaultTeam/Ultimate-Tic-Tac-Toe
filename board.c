@@ -29,12 +29,13 @@ typedef struct{
     int next_row, next_col;
 }big_board;
 
-void init(big_board * board) { //initting board with EMPTY type
+void init(big_board * board, small_board * smallBoard) { //initting board with EMPTY type
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
             board->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
+            board->boards[bigRow][smallRow].winner = EMPTY;
         }
     }
 }

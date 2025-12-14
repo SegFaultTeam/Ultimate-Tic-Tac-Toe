@@ -23,17 +23,49 @@ int random(int minimum, int maxaimum) {
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }
 
+void fallback(big_board * board, tic_tac_toe comp) {
+    if(board->next_col == -1 && board->next_row == -1) {
+        return;
+    }
+
+    else {
+        if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY) {
+            board->boards[board->next_row][board->next_col].cells[1][1] = comp;
+            return;
+        }
+        int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
+        for(int i = 0; i < 4; i++) {
+            int rows = corners[i][0];
+            int cols = corners[i][1];
+            if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
+                board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
+                return;
+            } 
+        }
+        for(int rows = 0 ; rows < 3; rows++) {
+            for(int cols = 0; cols < 3; cols++) {
+                if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
+                    board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
+                    return;
+                }
+            }
+        }
+    }
+}
+
 void computer_logic(big_board *board, tic_tac_toe comp) {
-    size_t countComp = 0;
-    size_t countUser = 0;
+
     tic_tac_toe user = comp == O ? X : O;
 
-    if(board->next_col == 0 && board->next_row == 0) {
+    if(board->next_col == -1 && board->next_row == -1) {
         for(int bigRow = 0; bigRow < 3; bigRow++) {
-            for(int smallRow = 0; smallRow < 3; smallRow++) {
                 for(int bigCol = 0; bigCol < 3; bigCol++) {
-                    int emptyRow = -1;
-                    int emptyCol = -1;
+                    
+                    for(int smallRow = 0; smallRow < 3; smallRow++) {
+                         int emptyRow = -1;
+                        int emptyCol = -1;
+                        int countComp = 0;
+                        int countUser = 0;
 
                     for(int smallCol = 0; smallCol < 3; smallCol++) {
                         if(board->boards[bigRow][bigCol].cells[smallRow][smallCol] == EMPTY) {
@@ -44,39 +76,37 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         } else countComp++;
                     }
 
-                    if((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2)) {
+                    if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                         return;
                     }
                 }
-            }
+            
 
-            for(int bigCol = 0; bigCol < 3; bigCol++) {
                 for(int smallCol = 0; smallCol < 3; smallCol++) {
-                    countComp = 0;
-                    countUser = 0;
+                    int countComp = 0;
+                    int countUser = 0;
                     int emptyRow = -1;
-                    int emptyCol = -1;
 
                     for(int smallRow = 0; smallRow < 3; smallRow++) {
                         if(board->boards[bigRow][bigCol].cells[smallRow][smallCol] == EMPTY) {
                             emptyRow = smallRow;
-                            emptyCol = smallCol;
                         } else if(board->boards[bigRow][bigCol].cells[smallRow][smallCol] == user) {
                             countUser++;
                         } else countComp++;
                     }
 
-                    if((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2)) {
-                        board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
+                    if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                        board->boards[bigRow][bigCol].cells[emptyRow][smallCol] = comp;
                         return;
                     }
                 }
-            }
+            
 
-            countComp = countUser = 0;
             int emptyRow = -1;
-            int emptyCol = -1;
+                int emptyCol = -1;
+                int countComp = 0;
+                int countUser = 0;
 
             for(int i = 0; i < 3; i++) {
                 if(board->boards[bigRow][bigCol].cells[i][i] == EMPTY) {
@@ -87,7 +117,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 } else countComp++;
             }
 
-            if((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2)) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 return;
             }
@@ -105,12 +135,91 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 } else countComp++;
             }
 
-            if((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2)) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 return;
             }
         }
     }
+}
+else {
+    for(int smallRow = 0; smallRow < 3; smallRow++) {
+        int emptyCol = -1;
+        int countComp = 0;
+        int countUser = 0;
+        int emptyRow = -1;
+        for(int smallCol = 0; smallCol < 3; smallCol++) {
+            if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == EMPTY) {
+                emptyCol = smallCol;
+                emptyRow = smallRow;
+            } 
+            else if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == user) countUser++;
+            else countComp++;
+        }
+
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                return;
+            }
+        
+    }
+    
+
+    for(int smallCol = 0; smallCol < 3; smallCol++) {
+        int emptyRow = -1;
+        int countComp = 0;
+        int countUser = 0;
+        for(int smallRow = 0; smallRow < 3; smallRow++) {
+            if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == EMPTY) {
+                emptyRow = smallRow;
+            } 
+            else if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == user) countUser++;
+            else countComp++;
+        }
+        if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                board->boards[board->next_row][board->next_col].cells[emptyRow][smallCol] = comp;
+                return;
+            }
+    }
+
+                int emptyRow = -1;
+                int emptyCol = -1;
+                int countComp = 0;
+                int countUser = 0;
+
+            for(int i = 0; i < 3; i++) {
+                if(board->boards[board->next_row][board->next_col].cells[i][i] == EMPTY) {
+                    emptyRow = i;
+                    emptyCol = i;
+                } else if(board->boards[board->next_row][board->next_col].cells[i][i] == user) {
+                    countUser++;
+                } else countComp++;
+            }
+
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                return;
+            }
+
+            countComp = countUser = 0;
+            emptyRow = -1;
+            emptyCol = -1;
+
+            for(int i = 0; i < 3; i++) {
+                if(board->boards[board->next_row][board->next_col].cells[i][2-i] == EMPTY) {
+                    emptyRow = i;
+                    emptyCol = 2 - i;
+                } else if(board->boards[board->next_row][board->next_col].cells[i][2-i] == user) {
+                    countUser++;
+                } else countComp++;
+            }
+
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
+                return;
+            }
+            fallback(board, comp);
+}
 }
 
 

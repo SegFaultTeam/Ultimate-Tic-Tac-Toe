@@ -31,9 +31,24 @@ int main(void) {
             while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
                 ;
             }
-            chech_win();
-            check_full_win();
-            if(c)
+            check_win();
+            if(check_full_win()){ // ask user to play again or break
+
+            }
+            computer_logic();
+            check_win();
+            if(check_full_win()){ // ask user to play again or break
+        }else{
+            computer_logic();
+            check_win();
+            if(check_full_win()){ // ask user to play again or break
+            }
+            while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
+                ;
+            }
+            check_win();
+            if(check_full_win()){ // ask user to play again or break
+            }
         }
     }
     return 0;

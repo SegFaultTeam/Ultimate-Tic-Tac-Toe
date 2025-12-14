@@ -23,11 +23,10 @@ int random(int minimum, int maxaimum) {
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }
 
-void computer_logic(big_board *board, tic_tac_toe comp) {
+void computer_logic(big_board *board, tic_tac_toe comp){
     size_t countComp = 0;
     size_t countUser = 0;
     tic_tac_toe user = comp == O ? X : O;
-
     if(board->next_col == 0 && board->next_row == 0) {
         for(int bigRow = 0; bigRow < 3; bigRow++) {
             for(int smallRow = 0; smallRow < 3; smallRow++) {

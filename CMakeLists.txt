@@ -10,6 +10,6 @@ set(BUILD_GAMES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(raylib)
 
-add_executable(utt main.c)
+add_executable(utt main.c board.c)
 
 target_link_libraries(utt raylib)

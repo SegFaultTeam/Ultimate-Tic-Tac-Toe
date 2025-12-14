@@ -19,6 +19,11 @@ typedef enum{
 }players_turn;
 
 typedef struct{
+    players_turn user;
+    tic_tac_toe symbol;
+}def_for_user;
+
+typedef struct{
     tic_tac_toe cells[3][3];
     tic_tac_toe winner;
 }small_board;
@@ -31,14 +36,14 @@ typedef struct{
 
 void init(big_board * board, small_board * smallBoard) { //initting board with EMPTY type
     for(int bigRow = 0; bigRow < 3; bigRow++) {
-    for(int smallRow = 0; smallRow < 3; smallRow++) {
-    for(int bigCol = 0; bigCol < 3; bigCol++) {
-        for(int smallCol = 0; smallCol < 3; smallCol++) {
-            board->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
-            board->boards[bigRow][smallRow].winner = EMPTY;
+        for(int smallRow = 0; smallRow < 3; smallRow++) {
+            for(int bigCol = 0; bigCol < 3; bigCol++) {
+                for(int smallCol = 0; smallCol < 3; smallCol++) {
+                    board->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
+                    board->boards[bigRow][smallRow].winner = EMPTY;
+                }
+            }
         }
-    }
-}
     }
     board->next_col = -1;
     board->next_row = -1;

@@ -11,6 +11,11 @@ typedef enum {
     player_2
 } players_turn;
 
+typedef struct{
+    players_turn user;
+    tic_tac_toe symbol;
+}def_for_user;
+
 /* 3x3 board */
 typedef struct {
     tic_tac_toe cells[3][3];

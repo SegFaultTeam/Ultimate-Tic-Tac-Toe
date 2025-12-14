@@ -1,0 +1,8 @@
+typedef enum{
+    EAGLE,
+    TAILS
+}coin;
+
+static void seed_prng(void);
+int random(int minimum, int maxaimum);
+bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving);

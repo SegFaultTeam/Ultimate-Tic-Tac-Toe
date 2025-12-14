@@ -2,6 +2,12 @@
 #include <stdbool.h>
 #include <time.h>
 #include "board.h"
+
+typedef enum{
+    EAGLE,
+    TAILS
+}coin;
+
 static void seed_prng(void) {
   static bool seed = false;
   if (!seed) {

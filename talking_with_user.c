@@ -4,18 +4,18 @@
 
 char read_char(const char *prompt){
     char c;
+    int ch;
     while(1){
         printf("%s", prompt);
-        if(scanf("%c", &c) != 1){
-            while(getchar() != '\n');
-            printf("INVALID INPUT\n");
-            continue;
-        }
+        fflush(stdout); 
+        c = getchar();
+        while ((ch = getchar()) != '\n' && ch != EOF);
         if (c == 't' || c == 'T' || c == 'e' || c == 'E') return c;
+
         printf("INVALID INPUT\n");
-        while (getchar() != '\n');
     }
 }
+
 
 size_t read_sz(void) {
   long input;

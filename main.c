@@ -12,9 +12,10 @@ int main(void) {
     bool first_move = true;
     char prompt[128];
     def_for_user gamer;
+    init(&bigBoard);
     while (!game_over){
         if(first_move){ //we throw a coin
-            int coin = random(0, 1); 
+            int coin = randkom(0, 1); 
             char c = read_char("Please choose (T)ails or (E)agle: ");
             if(coin == 0 && (c == 'e' || c == 'E')){
                 printf("YOU CHOOSE EAGLE AND EAGLE DROPPED, YOU WIN COIN!!!!\n");
@@ -29,7 +30,6 @@ int main(void) {
                 gamer.user = player_2;
                 gamer.symbol = O;
             }
-            init(&bigBoard);
             count_wins = 0;
             draw(bigBoard);
         }
@@ -84,6 +84,6 @@ int main(void) {
             }
         
     }
-    return 0;
 }
+    return 0;
 }

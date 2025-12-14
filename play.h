@@ -6,3 +6,4 @@ typedef enum{
 static void seed_prng(void);
 int random(int minimum, int maxaimum);
 bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving);
+void computer_logic(big_board *board, tic_tac_toe comp);

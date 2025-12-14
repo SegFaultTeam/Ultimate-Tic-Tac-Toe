@@ -49,7 +49,7 @@ void draw(big_board board) { // console version of drawing func
         for(int smallCol = 0; smallCol < 3; smallCol++) {
             tic_tac_toe c = board.boards[bigRow][bigCol].cells[smallRow][smallCol]; 
             if(c == EMPTY) {
-                printf("(%d)", smallCol + 1 + smallRow * 3);
+                printf("(%02d)", bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
             } 
             else {  
                 printf(" %c ", c == X ? 'X' : 'O');
@@ -63,7 +63,7 @@ void draw(big_board board) { // console version of drawing func
     printf("\n");
 }
 if(bigRow < 2) {
-printf("-----------+-------------+-----------\n");
+printf("--------------+----------------+--------------\n");
 }
     }
 

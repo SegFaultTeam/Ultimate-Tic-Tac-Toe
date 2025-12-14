@@ -5,7 +5,8 @@
 #include <time.h>
 #include <unistd.h> //for usleep func
 #include <stdbool.h>
-#include "raylib.h"
+// #include "raylib.h"
+
 typedef enum{
     X,
     O,
@@ -39,6 +40,7 @@ void init(big_board * board) { //initting board with EMPTY type
 }
     }
 }
+
 void draw(big_board board) { // console version of drawing func
     system("clear");
     for(int bigRow = 0; bigRow < 3; bigRow++) {

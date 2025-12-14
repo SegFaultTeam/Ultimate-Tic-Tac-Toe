@@ -21,8 +21,7 @@ typedef struct {
 typedef struct {
     small_board boards[3][3];
     players_turn current_player;
-    size_t next_row;
-    size_t next_col;
+    int next_row, next_col;
 } big_board;
 
 /**

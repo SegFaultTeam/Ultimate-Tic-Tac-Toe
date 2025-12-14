@@ -303,30 +303,25 @@ else { //second case if computer is limited in one particular board
 
 
 bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
-    if(n>81 || n < 1) return false;
-        n--;
-        size_t big_r = n / 27;
-        size_t big_c = (n / 9) % 3;
-        size_t small_r = (n / 3) % 3;
-        size_t small_c = n % 3;
+    if(n > 81 || n < 1) return false;
+    n--;
+    size_t big_r = n / 27;
+    size_t big_c = (n / 9) % 3;
+    size_t small_r = (n % 9) / 3;
+    size_t small_c = n % 3;
+    if(boards->boards[big_r][big_c].cells[small_r][small_c] != EMPTY) return false;
+    if(boards->boards[big_r][big_c].winner != EMPTY) return false;
     if(boards->next_col == -1 && boards->next_row == -1){
-        if(boards->boards[big_r][big_c].cells[small_r][small_c] != EMPTY) return false;
-        if (boards->boards[big_r][big_c].winner != EMPTY) return false;
         boards->boards[big_r][big_c].cells[small_r][small_c] = symbol_for_moving;
         boards->next_col = small_c;
         boards->next_row = small_r;
         return true;
-    }else{
-        size_t start = (boards->next_row * 27) + (boards->next_col * 9) + 1;
-        size_t end = start + 8;
-        if(n > end || n < start) return false;
-        if(boards->boards[big_r][big_c].cells[small_r][small_c] != EMPTY) return false;
-        if (boards->boards[big_r][big_c].winner != EMPTY) return false;
+    } else {
+        if(big_r != boards->next_row || big_c != boards->next_col) return false;
         boards->boards[big_r][big_c].cells[small_r][small_c] = symbol_for_moving;
         boards->next_col = small_c;
         boards->next_row = small_r;
         return true;
     }
 }
-
 

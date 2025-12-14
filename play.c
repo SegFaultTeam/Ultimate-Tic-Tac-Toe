@@ -19,7 +19,7 @@ int random(int minimum, int maxaimum) {
 void computer_logic(big_board board, tic_tac_toe c) {
 if(board.next_col == 0 && board.next_row ==0) {
 
-bool first_move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
+bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
     if(boards->next_col == -1 && boards->next_row == -1){
         n--;
         if(boards->boards[big_r][big_c].cells[small_r][small_c] != EMPTY) return false;

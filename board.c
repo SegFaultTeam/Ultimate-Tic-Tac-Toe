@@ -5,6 +5,9 @@
 #include <time.h>
 #include <unistd.h> //for usleep func
 #include <stdbool.h>
+#define CYAN "\033[0;36m"
+#define RESET "\033[0m"
+
 // #include "raylib.h"
 
 typedef enum{
@@ -35,19 +38,25 @@ typedef struct{
     int next_row, next_col;
 }big_board;
 
-void init(big_board * board, small_board * smallBoard) { //initting board with EMPTY type
+big_board * init(void) { //initting board with EMPTY type
+    big_board *bigBoard = malloc(sizeof(big_board));
+    if(!bigBoard) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
     for(int bigRow = 0; bigRow < 3; bigRow++) {
         for(int smallRow = 0; smallRow < 3; smallRow++) {
             for(int bigCol = 0; bigCol < 3; bigCol++) {
                 for(int smallCol = 0; smallCol < 3; smallCol++) {
-                    board->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
-                    board->boards[bigRow][smallRow].winner = EMPTY;
+                    bigBoard->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
+                    bigBoard->boards[bigRow][smallRow].winner = EMPTY;
                 }
             }
         }
     }
-    board->next_col = -1;
-    board->next_row = -1;
+    bigBoard->next_col = -1;
+    bigBoard->next_row = -1;
+    return bigBoard;
 }
 void print_big_x(int row) {
     if(row == 0) printf("   X     X  ");
@@ -59,22 +68,22 @@ void print_big_o(int row) {
     if(row == 1) printf("    O O    ");
     if(row == 2) printf("    OOO    ");
 }
-void draw(big_board board) { // console version of drawing func
+void draw(big_board *board) { // console version of drawing func
     system("clear");
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
-        if(board.boards[bigRow][bigCol].winner != EMPTY) {
-            board.boards[bigRow][bigCol].winner == X ? print_big_x(smallRow) : print_big_o(smallRow);
+        if(board->boards[bigRow][bigCol].winner != EMPTY) {
+            board->boards[bigRow][bigCol].winner == X ? print_big_x(smallRow) : print_big_o(smallRow);
             
         } else {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
-            tic_tac_toe c = board.boards[bigRow][bigCol].cells[smallRow][smallCol]; 
+            tic_tac_toe c = board->boards[bigRow][bigCol].cells[smallRow][smallCol]; 
             if(c == EMPTY) {
-                printf("(%02d)", bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
+                printf(CYAN"(%02d)", bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
             } 
             else {  
-                printf("%2s", c == X ? " X  " : " O  ");
+                printf(CYAN"%2s", c == X ? " X  " : " O  ");
             }
             
         }
@@ -86,7 +95,7 @@ void draw(big_board board) { // console version of drawing func
     printf("\n");
 }
 if(bigRow < 2) {
-printf("--------------+----------------+--------------\n");
+printf(CYAN"--------------+----------------+--------------\n");
 }
     }
 

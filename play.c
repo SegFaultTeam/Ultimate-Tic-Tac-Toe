@@ -38,7 +38,7 @@ bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
     size_t userCount = 0;
     for(int smallCol = 0; smallCol < 3; smallCol++) {
         for(int smallRow = 0; smallRow < 3; smallRow++) {
-            if(board->boards[row][col][smallRow][smallCol] == user) userCount++;
+            if(board->boards[row][col].cells[smallRow][smallCol] == user) userCount++;
         }
     }
     if(userCount > 0) return false;

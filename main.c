@@ -38,7 +38,7 @@ int main(void) {
             if (bigBoard->next_col == -1 && bigBoard->next_row == -1) {
                 snprintf(prompt, sizeof prompt,"You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);
             }           
             printf("%s", prompt); 
             while(!move_user(read_sz(), bigBoard, gamer.symbol)){
@@ -55,31 +55,31 @@ int main(void) {
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(&bigBoard) != EMPTY) return 52;
+                if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
         }else{
-            computer_logic(&bigBoard, invert_symbol(gamer.symbol));
+            computer_logic(bigBoard, invert_symbol(gamer.symbol));
             draw(bigBoard);
-            if(check_win(&bigBoard)){
+            if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(&bigBoard) != EMPTY) return 52;
+                if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
-            if (bigBoard.next_col == -1 && bigBoard.next_row == -1) {
+            if (bigBoard->next_col == -1 && bigBoard->next_row == -1) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);
             }           
             printf("%s", prompt); 
-            while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
+            while(!move_user(read_sz(), bigBoard, gamer.symbol)){
                 printf("We think your choise is incorrect, try again\n");
                 printf("%s", prompt);
             }
             draw(bigBoard);
-            if(check_win(&bigBoard)){
+            if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(&bigBoard) != EMPTY) return 52;
+                if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
         

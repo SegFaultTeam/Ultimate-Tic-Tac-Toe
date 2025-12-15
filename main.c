@@ -51,7 +51,7 @@ int main(void) {
                 if(count_wins == 9) return 333939;
             }
             draw(bigBoard);
-               computer_logic(&bigBoard, invert_symbol(gamer.symbol));
+               computer_logic(bigBoard, invert_symbol(gamer.symbol));
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;

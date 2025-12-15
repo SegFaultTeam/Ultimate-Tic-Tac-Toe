@@ -37,7 +37,7 @@ typedef struct {
  * @brief Initialize ultimate tic-tac-toe board
  * @param board Pointer to big_board structure
  */
-void init(big_board *board);
+big_board *init(void);
 
 /**
  * @brief Draw board to console

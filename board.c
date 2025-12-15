@@ -5,9 +5,9 @@
 #include <time.h>
 #include <unistd.h> //for usleep func
 #include <stdbool.h>
-#define CYAN "\033[0;36m"
+#define CYAN  "\033[0;36m"
 #define RESET "\033[0m"
-
+#define RED   "\033[0;031m"
 // #include "raylib.h"
 
 typedef enum{
@@ -69,6 +69,9 @@ void print_big_o(int row) {
     if(row == 2) printf("    OOO    ");
 }
 void draw(big_board *board) { // console version of drawing func
+    int currentRow, currentCol;
+    currentRow = board->next_row;
+    currentCol = board->next_col;
     system("clear");
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
@@ -80,22 +83,28 @@ void draw(big_board *board) { // console version of drawing func
         for(int smallCol = 0; smallCol < 3; smallCol++) {
             tic_tac_toe c = board->boards[bigRow][bigCol].cells[smallRow][smallCol]; 
             if(c == EMPTY) {
-                printf(CYAN"(%02d)", bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
-            } 
+              if(currentRow == bigRow && currentCol == bigCol)  printf(RED"(%02d)"RESET, bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
+               else printf(CYAN"(%02d)"RESET, bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1);
+            }
             else {  
-                printf(CYAN"%2s", c == X ? " X  " : " O  ");
+                if(currentRow == bigRow && currentCol == bigCol) {
+                    printf(RED"%2s"RESET, c == X ? " X  " : " O  ");
+                }
+                else {
+                printf(CYAN"%2s"RESET, c == X ? " X  " : " O  ");
+                }
             }
             
         }
     }
         if(bigCol < 2) {
-        printf("  |  ");
+        printf(CYAN"  |  "RESET);
         }
     }
     printf("\n");
 }
 if(bigRow < 2) {
-printf(CYAN"--------------+----------------+--------------\n");
+printf(CYAN"--------------+----------------+--------------\n"RESET);
 }
     }
 
@@ -220,10 +229,38 @@ bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
     }
     if(userCount > 0) return false;
     return true;
+} 
+bool cons_of_move_diagonale(big_board * board, int row, int col, tic_tac_toe user) {
+    int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
+    size_t userCount = 0;
+    for(int i = 0; i < 4; i++) {
+        int rows = corners[i][0];
+        int cols = corners[i][1];
+        if(board->boards[rows][cols].cells[row][col] == user) userCount++;
+    }
+    if(userCount > 2) return false;
+    return true;
 }
 bool cons(big_board * board, int row, int col, tic_tac_toe user) {
-    if(cons_of_move_col(board, row, col, user) && cons_of_move_row(board, row, col, user)) return true;
+    if(cons_of_move_col(board, row, col, user) && cons_of_move_row(board, row, col, user) && cons_of_move_diagonale(board, row, col, user)) return true;
     return false;
+}
+void pick_any(big_board * board, tic_tac_toe comp) {
+    for(int bigRows = 0; bigRows < 3; bigRows++) { //picking first non empty
+            for(int bigCols = 0; bigCols < 3; bigCols++) {
+                for(int smallRows = 0; smallRows < 3; smallRows++) {
+                    for(int smallCols = 0; smallCols < 3; smallCols++){
+                        if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY) {
+                            board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
+                            board->next_row = smallRows;
+                            board->next_col = smallCols;
+                            return;
+                        }
+                    }
+                }
+            }
+            
+        }
 }
 void fallback(big_board * board, tic_tac_toe comp) { 
     tic_tac_toe user = comp == O ? X : O;
@@ -277,7 +314,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
             for(int bigCols = 0; bigCols < 3; bigCols++) {
                 for(int smallRows = 0; smallRows < 3; smallRows++) {
                     for(int smallCols = 0; smallCols < 3; smallCols++){
-                        if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY) {
+                        if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY && cons(board, smallRows, smallCols, user)) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
                             board->next_row = smallRows;
                             board->next_col = smallCols;
@@ -288,6 +325,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
             }
             
         }
+        pick_any(board, comp);
     }
 
     else { //second case if computer is limited in one particular board
@@ -308,6 +346,17 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 return;
             } 
         }
+        for(int rows = 0 ; rows < 3; rows++) { //in other cases marking first non-empty place, but analyzing consequenses
+            for(int cols = 0; cols < 3; cols++) {
+                if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY && cons(board, rows, cols, user)) {
+                    board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
+                    board->next_row = rows;
+                    board->next_col = cols;
+                    return;
+                }
+            }
+        }
+
         for(int rows = 0 ; rows < 3; rows++) { //in other cases marking first non-empty place
             for(int cols = 0; cols < 3; cols++) {
                 if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {

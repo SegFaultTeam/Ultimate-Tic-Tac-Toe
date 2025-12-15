@@ -49,18 +49,6 @@ int main(void) {
                 printf("%s", prompt);
             }
             check_for_avi(bigBoard);
-            draw(bigBoard);
-            
-            if(check_win(bigBoard)){
-                count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
-                if(count_wins == 9) return 333939;
-            }
-            draw(bigBoard);
-            usleep(2000000);
-            computer_logic(bigBoard, invert_symbol(gamer.symbol));
-            check_for_avi(bigBoard);
-            draw(bigBoard);
             
             if(check_win(bigBoard)){
                 count_wins++;
@@ -83,16 +71,47 @@ int main(void) {
                         return 42;
                     }
                 }
+            }
+            
+            computer_logic(bigBoard, invert_symbol(gamer.symbol));
+            check_for_avi(bigBoard);
+            
+            if(check_win(bigBoard)){
+                count_wins++;
+                draw(bigBoard);
+                
+                tic_tac_toe win_var = check_full(bigBoard);
+                if(win_var != EMPTY) {
+                    if(win_case(win_var, gamer)){
+                        first_move = true;
+                        continue;
+                    }else{
+                        printf("BYE\n");
+                        return 42;
+                    }
+                }
+                if(count_wins == 9) {
+                    if(win_case(DRAW, gamer)){
+                        first_move = true;
+                        continue;
+                    }else{
+                        printf("BYE\n");
+                        return 42;
+                    }
+                }
+            } else {
+                draw(bigBoard);
             }
             
         }else{
             usleep(2000000);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
-            draw(bigBoard);
             
             if(check_win(bigBoard)){
                 count_wins++;
+                draw(bigBoard);
+                
                 tic_tac_toe win_var = check_full(bigBoard);
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
@@ -112,9 +131,10 @@ int main(void) {
                         return 42;
                     }
                 }
+            } else {
+                draw(bigBoard);
             }
             
-            // ХОД ИГРОКА
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
@@ -126,10 +146,11 @@ int main(void) {
                 printf("%s", prompt);
             }
             check_for_avi(bigBoard);
-            draw(bigBoard);
             
             if(check_win(bigBoard)){
                 count_wins++;
+                draw(bigBoard);
+                
                 tic_tac_toe win_var = check_full(bigBoard);
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
@@ -149,6 +170,8 @@ int main(void) {
                         return 42;
                     }
                 }
+            } else {
+                draw(bigBoard);
             }
         }
     }

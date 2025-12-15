@@ -6,13 +6,12 @@
 #include "check_conditions.h"
 #include <unistd.h>
 int main(void) {
-    big_board bigBoard;
+    big_board *bigBoard = init();
     size_t count_wins;
     bool game_over = false;
     bool first_move = true;
     char prompt[128];
     def_for_user gamer;
-    init(&bigBoard);
     while (!game_over){
         if(first_move){ //we throw a coin
             int coin = randkom(0, 1); 
@@ -36,25 +35,25 @@ int main(void) {
         }
         first_move = false;
         if(gamer.user == player_1){
-            if (bigBoard.next_col == -1 && bigBoard.next_row == -1) {
-                snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
+            if (bigBoard->next_col == -1 && bigBoard->next_row == -1) {
+                snprintf(prompt, sizeof prompt,"You can place whenever you want, except already chosen position: ");
             } else {
                 snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard.next_col, bigBoard.next_row);
             }           
             printf("%s", prompt); 
-            while(!move_user(read_sz(), &bigBoard, gamer.symbol)){
+            while(!move_user(read_sz(), bigBoard, gamer.symbol)){
                 printf("We think your choise is incorrect, try again: ");
                 printf("%s", prompt);
             }
-            if(check_win(&bigBoard)){
+            if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(&bigBoard) != EMPTY) return 52;
+                if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
             draw(bigBoard);
                computer_logic(&bigBoard, invert_symbol(gamer.symbol));
             draw(bigBoard);
-            if(check_win(&bigBoard)){
+            if(check_win(bigBoard)){
                 count_wins++;
                 if(check_full(&bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;

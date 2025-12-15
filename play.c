@@ -2,7 +2,8 @@
 #include <stdbool.h>
 #include <time.h>
 #include "board.h"
-
+#include <unistd.h>
+#include <stdio.h>
 typedef enum{
     EAGLE,
     TAILS
@@ -26,6 +27,7 @@ int randkom(int minimum, int maxaimum) {
 void fallback(big_board * board, tic_tac_toe comp) { 
     int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
     if(board->next_col == -1 && board->next_row == -1) { //first case if computer is not limited
+       
         if(board->boards[1][1].cells[1][1] == EMPTY) { //checking if center is empty
             board->boards[1][1].cells[1][1] = comp;
             board->next_col = 1;
@@ -118,7 +120,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
 }
 
 void computer_logic(big_board *board, tic_tac_toe comp) {
-
     tic_tac_toe user = comp == O ? X : O;
 
     if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board
@@ -211,6 +212,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
             }
         }
     }
+   
 }
 else { //second case if computer is limited in one particular board
     for(int smallRow = 0; smallRow < 3; smallRow++) {
@@ -296,9 +298,10 @@ else { //second case if computer is limited in one particular board
                 return;
             }
 
-            //if there are none, calling fallback
-            fallback(board, comp);
+            
 }
+//if there are none, calling fallback
+            fallback(board, comp);
 }
 
 

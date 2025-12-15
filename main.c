@@ -44,13 +44,15 @@ int main(void) {
                 printf("We think your choise is incorrect, try again: ");
                 printf("%s", prompt);
             }
+            check_for_avi(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;
                 if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
             draw(bigBoard);
-               computer_logic(bigBoard, invert_symbol(gamer.symbol));
+            computer_logic(bigBoard, invert_symbol(gamer.symbol));
+            check_for_avi(bigBoard);
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;
@@ -59,6 +61,7 @@ int main(void) {
             }
         }else{
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
+            check_for_avi(bigBoard);
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;
@@ -75,6 +78,7 @@ int main(void) {
                 printf("We think your choise is incorrect, try again\n");
                 printf("%s", prompt);
             }
+            check_for_avi(bigBoard);
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;

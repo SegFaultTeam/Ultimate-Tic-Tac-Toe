@@ -46,4 +46,5 @@ bool check_win(struct big_board *board);
 tic_tac_toe check_full(const struct big_board *board);
 bool move_user(size_t n, struct big_board *boards, tic_tac_toe symbol_for_moving);
 void computer_logic(struct big_board *board, tic_tac_toe comp);
+void check_for_avi(struct big_board *board);
 #endif /* BOARD_H */

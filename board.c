@@ -194,6 +194,13 @@ tic_tac_toe check_full(const big_board *board){
     return EMPTY;  
 }
 
+void check_for_avi(big_board *board){
+    if(board->boards[board->next_row][board->next_col].winner != EMPTY){
+        board->next_row = -1;
+        board->next_col = -1;
+    }
+}
+
 bool cons_of_move_row(big_board * board, int row, int col, tic_tac_toe user) {
     size_t userCount = 0;
     for(int smallRow = 0; smallRow < 3; smallRow++) {
@@ -340,7 +347,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = emptyCol;
-                        return;
+                           return;
                     }
                 }
                 for(int smallCol = 0; smallCol < 3; smallCol++) { //first case, searching if in col there are two X or O, setting this as a priority one

@@ -52,6 +52,8 @@ int main(void) {
             
             if(check_win(bigBoard)){
                 count_wins++;
+                draw(bigBoard);
+                
                 tic_tac_toe win_var = check_full(bigBoard);
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
@@ -71,6 +73,8 @@ int main(void) {
                         return 42;
                     }
                 }
+            } else {
+                draw(bigBoard);
             }
             
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
@@ -104,7 +108,6 @@ int main(void) {
             }
             
         }else{
-            usleep(2000000);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
             

@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
@@ -23,12 +24,36 @@ int randkom(int minimum, int maxaimum) {
   seed_prng();
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }
-
+bool cons_of_move_row(big_board * board, int row, int col, tic_tac_toe user) {
+    size_t userCount = 0;
+    for(int smallRow = 0; smallRow < 3; smallRow++) {
+        for(int smallCol = 0; smallCol < 3; smallCol++) {
+            if(board->boards[row][col].cells[smallRow][smallCol] == user) userCount++;
+        }
+    }
+    if(userCount > 0) return false;
+    return true;
+}
+bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
+    size_t userCount = 0;
+    for(int smallCol = 0; smallCol < 3; smallCol++) {
+        for(int smallRow = 0; smallRow < 3; smallRow++) {
+            if(board->boards[row][col][smallRow][smallCol] == user) userCount++;
+        }
+    }
+    if(userCount > 0) return false;
+    return true;
+}
+bool cons(big_board * board, int row, int col, tic_tac_toe user) {
+    if(cons_of_move_col(board, row, col, user) && cons_of_move_row(board, row, col, user)) return true;
+    return false;
+}
 void fallback(big_board * board, tic_tac_toe comp) { 
+    tic_tac_toe user = comp == O ? X : O;
     int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
     if(board->next_col == -1 && board->next_row == -1) { //first case if computer is not limited
        
-        if(board->boards[1][1].cells[1][1] == EMPTY) { //checking if center is empty
+        if(board->boards[1][1].cells[1][1] == EMPTY && cons(board, 1, 1, user)) { //checking if center is empty
             board->boards[1][1].cells[1][1] = comp;
             board->next_col = 1;
             board->next_row = 1;
@@ -38,7 +63,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
         for(int i = 0; i<4; i++) { //checking for big corners
             int bigRows = corners[i][0];
             int bigCols = corners[i][1];
-            if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
+            if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY && cons(board,1,1,user)) {
                 board->boards[bigRows][bigCols].cells[1][1] = comp;
                 board->next_col = 1;
                 board->next_row = 1;
@@ -47,7 +72,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
         } 
         for(int bigRows = 0; bigRows < 3; bigRows++) { //checking for centers in small squares
             for(int bigCols = 0; bigCols < 3; bigCols++) {
-                if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY) {
+                if(board->boards[bigRows][bigCols].cells[1][1] == EMPTY && cons(board, 1, 1, user)) {
                     board->boards[bigRows][bigCols].cells[1][1] = comp;
                     board->next_row = 1;
                     board->next_col = 1;
@@ -61,7 +86,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 for(int i = 0; i < 4; i++) {
                     int rows = corners[i][0];
                     int cols = corners[i][1];
-                    if(board->boards[bigRows][bigCols].cells[rows][cols] == EMPTY) {
+                    if(board->boards[bigRows][bigCols].cells[rows][cols] == EMPTY && cons(board, rows , cols, user)) {
                         board->boards[bigRows][bigCols].cells[rows][cols] = comp;
                         board->next_col = cols;
                         board->next_row = rows;
@@ -89,7 +114,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
     }
 
     else { //second case if computer is limited in one particular board
-        if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY) { //searching for center as second priority
+        if(board->boards[board->next_row][board->next_col].cells[1][1] == EMPTY && cons(board, 1, 1, user)) { //searching for center as second priority
             board->boards[board->next_row][board->next_col].cells[1][1] = comp;
             board->next_row = 1;
             board->next_col = 1;
@@ -99,7 +124,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
         for(int i = 0; i < 4; i++) { //searching for corners as third priority
             int rows = corners[i][0];
             int cols = corners[i][1];
-            if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY) {
+            if(board->boards[board->next_row][board->next_col].cells[rows][cols] == EMPTY && cons(board, rows, cols, user)) {
                 board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                 board->next_row = rows;
                 board->next_col = cols;

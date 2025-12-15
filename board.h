@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <stdbool.h>
+#include <stddef.h>
 /* cell state */
 typedef enum {
     X,
@@ -39,4 +40,10 @@ struct big_board *init(void);
 void draw(struct big_board *board);
 bool check_1_1(struct big_board *boards);
 tic_tac_toe invert_symbol(tic_tac_toe s);
+int next_row(struct big_board *boards);
+int next_col(struct big_board *boards);
+bool check_win(struct big_board *board);
+tic_tac_toe check_full(const struct big_board *board);
+bool move_user(size_t n, struct big_board *boards, tic_tac_toe symbol_for_moving);
+void computer_logic(struct big_board *board, tic_tac_toe comp);
 #endif /* BOARD_H */

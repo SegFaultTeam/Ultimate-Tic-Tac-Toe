@@ -2,9 +2,8 @@
 #include "board.h"
 #include <stdbool.h>
 #include "talking_with_user.h"
-#include "play.h"
-#include "check_conditions.h"
 #include <unistd.h>
+#include "play.h"
 int main(void) {
     struct big_board *bigBoard = init();
     size_t count_wins;
@@ -38,7 +37,7 @@ int main(void) {
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt,"You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", next_row(bigBoard), next_col(bigBoard));
             }           
             printf("%s", prompt); 
             while(!move_user(read_sz(), bigBoard, gamer.symbol)){
@@ -69,7 +68,7 @@ int main(void) {
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
-                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);
+                snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", next_row(bigBoard), next_col(bigBoard));
             }           
             printf("%s", prompt); 
             while(!move_user(read_sz(), bigBoard, gamer.symbol)){

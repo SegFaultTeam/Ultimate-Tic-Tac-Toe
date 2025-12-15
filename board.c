@@ -10,7 +10,8 @@
 typedef enum{
     X,
     O,
-    EMPTY
+    EMPTY,
+    DRAW
 }tic_tac_toe;
 
 typedef enum{

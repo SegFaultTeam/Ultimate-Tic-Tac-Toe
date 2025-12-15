@@ -3,31 +3,63 @@
 bool check_win(big_board *board){
     for(int bigR = 0; bigR < 3; bigR++){
         for(int bigC = 0; bigC < 3; bigC++){
-        if(board->boards[bigR][bigC].winner != EMPTY) continue;
-            if (board->boards[bigR][bigC].cells[0][0] != EMPTY && board->boards[bigR][bigC].cells[0][0] == board->boards[bigR][bigC].cells[1][1] && board->boards[bigR][bigC].cells[0][0] == board->boards[bigR][bigC].cells[2][2]){
-                board->boards[bigR][bigC].winner = board->boards[bigR][bigC].cells[0][0];
-                    return true;
+
+            small_board *sb = &board->boards[bigR][bigC];
+
+            if(sb->winner != EMPTY)
+                continue;
+
+            if (sb->cells[0][0] != EMPTY &&
+                sb->cells[0][0] == sb->cells[1][1] &&
+                sb->cells[0][0] == sb->cells[2][2]) {
+                sb->winner = sb->cells[0][0];
+                return true;
             }
-            if (board->boards[bigR][bigC].cells[0][2] != EMPTY && board->boards[bigR][bigC].cells[0][2] == board->boards[bigR][bigC].cells[1][1] && board->boards[bigR][bigC].cells[0][2] == board->boards[bigR][bigC].cells[2][0]) {
-                board->boards[bigR][bigC].winner = board->boards[bigR][bigC].cells[0][2];
-                    return true;
+
+            if (sb->cells[0][2] != EMPTY &&
+                sb->cells[0][2] == sb->cells[1][1] &&
+                sb->cells[0][2] == sb->cells[2][0]) {
+                sb->winner = sb->cells[0][2];
+                return true;
             }
             for (int i = 0; i < 3; i++){
-                if (board->boards[bigR][bigC].cells[i][0] != EMPTY && board->boards[bigR][bigC].cells[i][0] == board->boards[bigR][bigC].cells[i][1] && board->boards[bigR][bigC].cells[i][0] == board->boards[bigR][bigC].cells[i][2]){
-                board->boards[bigR][bigC].winner = board->boards[bigR][bigC].cells[i][0]; 
+                if (sb->cells[i][0] != EMPTY &&
+                    sb->cells[i][0] == sb->cells[i][1] &&
+                    sb->cells[i][0] == sb->cells[i][2]) {
+                    sb->winner = sb->cells[i][0];
                     return true;
                 }
             }
+
             for (int i = 0; i < 3; i++){
-                if (board->boards[bigR][bigC].cells[0][i] != EMPTY && board->boards[bigR][bigC].cells[0][i] == board->boards[bigR][bigC].cells[1][i] && board->boards[bigR][bigC].cells[0][i] == board->boards[bigR][bigC].cells[2][i]) {
-                    board->boards[bigR][bigC].winner = board->boards[bigR][bigC].cells[0][i]; 
+                if (sb->cells[0][i] != EMPTY &&
+                    sb->cells[0][i] == sb->cells[1][i] &&
+                    sb->cells[0][i] == sb->cells[2][i]) {
+                    sb->winner = sb->cells[0][i];
                     return true;
                 }
+            }
+
+            bool has_empty = false;
+            for (int r = 0; r < 3; r++){
+                for (int c = 0; c < 3; c++){
+                    if (sb->cells[r][c] == EMPTY) {
+                        has_empty = true;
+                        break;
+                    }
+                }
+                if (has_empty) break;
+            }
+
+            if (!has_empty) {
+                sb->winner = DRAW;
+                return true;
             }
         }
     }
     return false;
 }
+
 
 tic_tac_toe check_full(const big_board *board){
     if(board->boards[1][1].winner != EMPTY){

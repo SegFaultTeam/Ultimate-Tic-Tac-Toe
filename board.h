@@ -43,7 +43,7 @@ big_board *init(void);
  * @brief Draw board to console
  * @param board Game board
  */
-void draw(big_board board);
+void draw(big_board *board);
 
 tic_tac_toe invert_symbol(tic_tac_toe s);
 #endif /* BOARD_H */

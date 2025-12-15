@@ -104,3 +104,10 @@ tic_tac_toe invert_symbol(tic_tac_toe s) {
     if (s == X) return O;
     if (s == O) return X;
 }
+
+bool check_1_1(big_board *boards){
+    if(boards->next_col == -1 && boards->next_row == -1){
+        return true;
+    }
+    return false;
+}

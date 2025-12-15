@@ -1,6 +1,6 @@
 #ifndef BOARD_H
 #define BOARD_H
-
+#include <stdbool.h>
 /* cell state */
 typedef enum {
     X,
@@ -21,29 +21,22 @@ typedef struct{
 }def_for_user;
 
 /* 3x3 board */
-typedef struct {
-    tic_tac_toe cells[3][3];
-    tic_tac_toe winner;
-} small_board;
+struct small_board;
 
 /* ultimate board */
-typedef struct {
-    small_board boards[3][3];
-    players_turn current_player;
-    int next_row, next_col;
-} big_board;
+struct big_board;
 
 /**
  * @brief Initialize ultimate tic-tac-toe board
  * @param board Pointer to big_board structure
  */
-big_board *init(void);
+struct big_board *init(void);
 
 /**
  * @brief Draw board to console
  * @param board Game board
  */
-void draw(big_board *board);
-
+void draw(struct big_board *board);
+bool check_1_1(struct big_board *boards);
 tic_tac_toe invert_symbol(tic_tac_toe s);
 #endif /* BOARD_H */

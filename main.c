@@ -6,7 +6,7 @@
 #include "check_conditions.h"
 #include <unistd.h>
 int main(void) {
-    big_board *bigBoard = init();
+    struct big_board *bigBoard = init();
     size_t count_wins;
     bool game_over = false;
     bool first_move = true;
@@ -35,7 +35,7 @@ int main(void) {
         }
         first_move = false;
         if(gamer.user == player_1){
-            if (bigBoard->next_col == -1 && bigBoard->next_row == -1) {
+            if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt,"You can place whenever you want, except already chosen position: ");
             } else {
                 snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);
@@ -66,7 +66,7 @@ int main(void) {
                 if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
-            if (bigBoard->next_col == -1 && bigBoard->next_row == -1) {
+            if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
                 snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", bigBoard->next_col, bigBoard->next_row);

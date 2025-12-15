@@ -34,8 +34,6 @@ char read_yes_no(void){
     char c;
     int ch;
     while(1){
-        printf("%s", prompt);
-        fflush(stdout); 
         c = getchar();
         while ((ch = getchar()) != '\n' && ch != EOF);
         if (c == 'y' || c == 'Y' || c == 'n' || c == 'N') return c;

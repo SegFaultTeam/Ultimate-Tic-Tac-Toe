@@ -24,7 +24,7 @@ int randkom(int minimum, int maxaimum) {
   seed_prng();
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;
 }
-bool cons_of_move_row(big_board * board, int row, int col, tic_tac_toe user) {
+bool cons_of_move_row(struct big_board * board, int row, int col, tic_tac_toe user) {
     size_t userCount = 0;
     for(int smallRow = 0; smallRow < 3; smallRow++) {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
@@ -34,7 +34,7 @@ bool cons_of_move_row(big_board * board, int row, int col, tic_tac_toe user) {
     if(userCount > 0) return false;
     return true;
 }
-bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
+bool cons_of_move_col(struct big_board * board, int row, int col, tic_tac_toe user) {
     size_t userCount = 0;
     for(int smallCol = 0; smallCol < 3; smallCol++) {
         for(int smallRow = 0; smallRow < 3; smallRow++) {
@@ -44,11 +44,11 @@ bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
     if(userCount > 0) return false;
     return true;
 }
-bool cons(big_board * board, int row, int col, tic_tac_toe user) {
+bool cons(struct big_board * board, int row, int col, tic_tac_toe user) {
     if(cons_of_move_col(board, row, col, user) && cons_of_move_row(board, row, col, user)) return true;
     return false;
 }
-void fallback(big_board * board, tic_tac_toe comp) { 
+void fallback(struct big_board * board, tic_tac_toe comp) { 
     tic_tac_toe user = comp == O ? X : O;
     int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
     if(board->next_col == -1 && board->next_row == -1) { //first case if computer is not limited
@@ -144,7 +144,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
     }
 }
 
-void computer_logic(big_board *board, tic_tac_toe comp) {
+void computer_logic(struct  big_board *board, tic_tac_toe comp) {
     tic_tac_toe user = comp == O ? X : O;
 
     if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board

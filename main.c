@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include "play.h"
 int main(void) {
-    struct big_board *bigBoard = init();
+    struct big_board *bigBoard = NULL;
     size_t count_wins;
     bool game_over = false;
     bool first_move = true;
@@ -13,6 +13,7 @@ int main(void) {
     def_for_user gamer;
     while (!game_over){
         if(first_move){ //we throw a coin
+            bigBoard = init();
             int coin = randkom(0, 1); 
             char c = read_char("Please choose (T)ails or (E)agle: ");
             if(coin == 0 && (c == 'e' || c == 'E')){
@@ -65,8 +66,15 @@ int main(void) {
             draw(bigBoard);
             if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
-                if(count_wins == 9) return 333939;
+                tic_tac_toe win_var = check_full(bigBoard);
+                if(tic_tac_toe != EMPTY) {
+                    if(win_case(win_var, gamer)){
+                        first_move = true;
+                        
+                }
+            }
+                if(count_wins == 9) {
+                    if(win_case(DRAW, gamer))
             }
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");

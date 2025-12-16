@@ -117,6 +117,7 @@ printf(CYAN"--------------+----------------+--------------\n"RESET);
 tic_tac_toe invert_symbol(tic_tac_toe s) {
     if (s == X) return O;
     if (s == O) return X;
+    else return EMPTY;
 }
 
 bool check_1_1(big_board *boards){
@@ -565,10 +566,10 @@ else { //second case if computer is limited in one particular board
 bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
     if(n > 81 || n < 1) return false;
     n--;
-    size_t big_r = n / 27;
-    size_t big_c = (n / 9) % 3;
-    size_t small_r = (n % 9) / 3;
-    size_t small_c = n % 3;
+    int big_r = n / 27;
+    int big_c = (n / 9) % 3;
+    int small_r = (n % 9) / 3;
+    int small_c = n % 3;
     if(boards->boards[big_r][big_c].cells[small_r][small_c] != EMPTY) return false;
     if(boards->boards[big_r][big_c].winner != EMPTY) return false;
     if(boards->next_col == -1 && boards->next_row == -1){
@@ -585,3 +586,7 @@ bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
     }
 }
 
+void free_board(big_board *board){
+    free(board);
+    board = NULL;
+}

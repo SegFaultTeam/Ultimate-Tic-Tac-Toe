@@ -8,6 +8,8 @@
 #define CYAN  "\033[0;36m"
 #define RESET "\033[0m"
 #define RED   "\033[0;031m"
+#define BOLD_RED "\033[1;31m"
+#define GREEN "\033[1;32m"
 // #include "raylib.h"
 
 typedef enum{
@@ -58,17 +60,18 @@ big_board * init(void) { //initting board with EMPTY type
     bigBoard->next_row = -1;
     return bigBoard;
 }
-void print_big_x(int row) {
-    if(row == 0) printf("   X     X  ");
-    if(row == 1) printf("      X     ");
-    if(row == 2) printf("   X     X  ");
+void print_big_x(int row, bool userWinned) {
+    if(row == 0) printf("%s", userWinned ? GREEN"   X     X  "RESET :BOLD_RED"   X     X  "RESET);
+    if(row == 1) printf("%s", userWinned ? GREEN"      X     "RESET :BOLD_RED"      X     "RESET);
+    if(row == 2) printf("%s", userWinned ? GREEN"   X     X  "RESET :BOLD_RED"   X     X  "RESET);
 }
-void print_big_o(int row) {
-    if(row == 0) printf("    OOO    ");
-    if(row == 1) printf("    O O    ");
-    if(row == 2) printf("    OOO    ");
+void print_big_o(int row, bool userWinned) {
+    if(row == 0) printf("%s", userWinned ? GREEN"    OOOO    "RESET :BOLD_RED"    OOOO    "RESET);
+    if(row == 1) printf("%s", userWinned ? GREEN"    O  O    "RESET :BOLD_RED"    O  O    "RESET);
+    if(row == 2) printf("%s", userWinned ? GREEN"    OOOO    "RESET :BOLD_RED"    OOOO    "RESET);
 }
-void draw(big_board *board) { // console version of drawing func
+void draw(big_board *board, tic_tac_toe user) { // console version of drawing func
+    tic_tac_toe comp = user == O ? X  : O;
     int currentRow, currentCol;
     currentRow = board->next_row;
     currentCol = board->next_col;
@@ -77,7 +80,8 @@ void draw(big_board *board) { // console version of drawing func
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
         if(board->boards[bigRow][bigCol].winner != EMPTY) {
-            board->boards[bigRow][bigCol].winner == X ? print_big_x(smallRow) : print_big_o(smallRow);
+            bool userWinned = board->boards[bigRow][bigCol].winner == user ? true : false;
+            board->boards[bigRow][bigCol].winner == X ? print_big_x(smallRow, userWinned) : print_big_o(smallRow, userWinned);
             
         } else {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
@@ -98,12 +102,13 @@ void draw(big_board *board) { // console version of drawing func
         }
     }
         if(bigCol < 2) {
-        printf(CYAN"  |  "RESET);
+             printf(CYAN"  |  "RESET);   
         }
     }
     printf("\n");
 }
 if(bigRow < 2) {
+    
 printf(CYAN"--------------+----------------+--------------\n"RESET);
 }
     }

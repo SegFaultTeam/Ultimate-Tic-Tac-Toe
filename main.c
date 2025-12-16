@@ -33,7 +33,7 @@ int main(void) {
             }
             count_wins = 0;
             usleep(5000000);
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
         }
         first_move = false;
         
@@ -49,18 +49,18 @@ int main(void) {
                 printf("%s", prompt);
             }
             check_for_avi(bigBoard);
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
             
             if(check_win(bigBoard)){
                 count_wins++;
                 if(check_full(bigBoard) != EMPTY) return 52;
                 if(count_wins == 9) return 333939;
             }
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
             usleep(2000000);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
             
             if(check_win(bigBoard)){
                 count_wins++;
@@ -89,7 +89,7 @@ int main(void) {
             usleep(2000000);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
             
             if(check_win(bigBoard)){
                 count_wins++;
@@ -126,7 +126,7 @@ int main(void) {
                 printf("%s", prompt);
             }
             check_for_avi(bigBoard);
-            draw(bigBoard);
+            draw(bigBoard, gamer.symbol);
             
             if(check_win(bigBoard)){
                 count_wins++;

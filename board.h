@@ -37,7 +37,7 @@ struct big_board *init(void);
  * @brief Draw board to console
  * @param board Game board
  */
-void draw(struct big_board *board);
+void draw(struct big_board *board, tic_tac_toe comp);
 bool check_1_1(struct big_board *boards);
 tic_tac_toe invert_symbol(tic_tac_toe s);
 int next_row(struct big_board *boards);

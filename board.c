@@ -79,7 +79,7 @@ void draw(big_board *board, tic_tac_toe user) { // console version of drawing fu
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
-        if(board->boards[bigRow][bigCol].winner != EMPTY) {
+        if(board->boards[bigRow][bigCol].winner != EMPTY && board->boards[bigRow][bigCol].winner != DRAW) {
             bool userWinned = board->boards[bigRow][bigCol].winner == user ? true : false;
             board->boards[bigRow][bigCol].winner == X ? print_big_x(smallRow, userWinned) : print_big_o(smallRow, userWinned);
             

@@ -10,7 +10,7 @@ int main(void) {
     size_t count_wins;
     bool game_over = false;
     bool first_move = true;
-    char prompt[128];
+    char prompt[77];
     def_for_user gamer;
     
     while (!game_over){

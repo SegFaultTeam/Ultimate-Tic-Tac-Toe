@@ -53,8 +53,33 @@ int main(void) {
             
             if(check_win(bigBoard)){
                 count_wins++;
-                if(check_full(bigBoard) != EMPTY) return 52;
-                if(count_wins == 9) return 333939;
+                draw(bigBoard, gamer.symbol);
+                
+                tic_tac_toe win_var = check_full(bigBoard);
+                if(win_var != EMPTY) {
+                    if(win_case(win_var, gamer)){
+                        first_move = true;
+                        free_board(bigBoard);
+                        continue;
+                    }else{
+                        printf("BYE\n");
+                        free_board(bigBoard);
+                        return 42;
+                    }
+                }
+                if(count_wins == 9) {
+                    if(win_case(DRAW, gamer)){
+                        first_move = true;
+                        free_board(bigBoard);
+                        continue;
+                    }else{
+                        printf("BYE\n");
+                        free_board(bigBoard);
+                        return 42;
+                    }
+                }
+            } else {
+                draw(bigBoard, gamer.symbol);
             }
             draw(bigBoard, gamer.symbol);
             usleep(2000000);

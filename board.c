@@ -260,6 +260,7 @@ void pick_any(big_board * board, tic_tac_toe comp) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
                             board->next_row = smallRows;
                             board->next_col = smallCols;
+                            check_for_avi(board);
                             return;
                         }
                     }
@@ -277,6 +278,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
             board->boards[1][1].cells[1][1] = comp;
             board->next_col = 1;
             board->next_row = 1;
+            check_for_avi(board);
             return;
         }
 
@@ -287,6 +289,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 board->boards[bigRows][bigCols].cells[1][1] = comp;
                 board->next_col = 1;
                 board->next_row = 1;
+                check_for_avi(board);
                 return;
             }
         } 
@@ -296,6 +299,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[bigRows][bigCols].cells[1][1] = comp;
                     board->next_row = 1;
                     board->next_col = 1;
+                    check_for_avi(board);
                     return;
                 }
             }
@@ -310,6 +314,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                         board->boards[bigRows][bigCols].cells[rows][cols] = comp;
                         board->next_col = cols;
                         board->next_row = rows;
+                        check_for_avi(board);
                         return;
                     }
                 }
@@ -324,6 +329,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
                             board->next_row = smallRows;
                             board->next_col = smallCols;
+                            check_for_avi(board);
                             return;
                         }
                     }
@@ -339,6 +345,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
             board->boards[board->next_row][board->next_col].cells[1][1] = comp;
             board->next_row = 1;
             board->next_col = 1;
+            check_for_avi(board);
             return;
         }
        
@@ -349,6 +356,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                 board->next_row = rows;
                 board->next_col = cols;
+                check_for_avi(board);
                 return;
             } 
         }
@@ -358,6 +366,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                     board->next_row = rows;
                     board->next_col = cols;
+                    check_for_avi(board);
                     return;
                 }
             }
@@ -369,6 +378,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                     board->next_row = rows;
                     board->next_col = cols;
+                    check_for_avi(board);
                     return;
                 }
             }
@@ -402,6 +412,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = emptyCol;
+                        check_for_avi(board);
                            return;
                     }
                 }
@@ -422,6 +433,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         board->boards[bigRow][bigCol].cells[emptyRow][smallCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = smallCol;
+                        check_for_avi(board);
                         return;
                     }
                 }
@@ -445,6 +457,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
+                check_for_avi(board);
                 return;
             }
 
@@ -465,6 +478,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
+                check_for_avi(board);
                 return;
             }
         }
@@ -490,6 +504,7 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
+                check_for_avi(board);
                 return;
             }
         
@@ -511,6 +526,7 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][smallCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = smallCol;
+                check_for_avi(board);
                 return;
             }
     }
@@ -533,6 +549,7 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
+                check_for_avi(board);
                 return;
             }
 
@@ -553,6 +570,7 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
+                check_for_avi(board);
                 return;
             }
 

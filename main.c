@@ -119,6 +119,7 @@ int main(void) {
             }
             
         }else{
+            usleep(2000000);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
             draw(bigBoard, gamer.symbol);

@@ -197,18 +197,32 @@ bool check_win(big_board *board){
 
 
 tic_tac_toe check_full(const big_board *board){
-    if(board->boards[1][1].winner != EMPTY){
-        if(board->boards[0][0].winner == board->boards[1][1].winner && board->boards[1][1].winner == board->boards[2][2].winner) return board->boards[1][1].winner;
-        else if(board->boards[0][2].winner == board->boards[1][1].winner && board->boards[1][1].winner == board->boards[2][0].winner) return board->boards[1][1].winner;
+    if(board->boards[1][1].winner != EMPTY &&
+       board->boards[1][1].winner != DRAW){
+        if(board->boards[0][0].winner == board->boards[1][1].winner &&
+           board->boards[1][1].winner == board->boards[2][2].winner)
+            return board->boards[1][1].winner;
+        else if(board->boards[0][2].winner == board->boards[1][1].winner &&
+                board->boards[1][1].winner == board->boards[2][0].winner)
+            return board->boards[1][1].winner;
     }
     for (int bigR = 0; bigR < 3; bigR++){
-        if(board->boards[bigR][0].winner != EMPTY && board->boards[bigR][0].winner == board->boards[bigR][1].winner && board->boards[bigR][0].winner == board->boards[bigR][2].winner) return board->boards[bigR][0].winner;
+        if(board->boards[bigR][0].winner != EMPTY &&
+           board->boards[bigR][0].winner != DRAW &&
+           board->boards[bigR][0].winner == board->boards[bigR][1].winner &&
+           board->boards[bigR][0].winner == board->boards[bigR][2].winner)
+            return board->boards[bigR][0].winner;
     }
     for (int bigC = 0; bigC < 3; bigC++){
-        if(board->boards[0][bigC].winner != EMPTY && board->boards[0][bigC].winner == board->boards[1][bigC].winner && board->boards[0][bigC].winner == board->boards[2][bigC].winner) return board->boards[0][bigC].winner;
+        if(board->boards[0][bigC].winner != EMPTY &&
+           board->boards[0][bigC].winner != DRAW &&
+           board->boards[0][bigC].winner == board->boards[1][bigC].winner &&
+           board->boards[0][bigC].winner == board->boards[2][bigC].winner)
+            return board->boards[0][bigC].winner;
     }
     return EMPTY;  
 }
+
 
 void check_for_avi(big_board *board){
     if(board->next_row == -1 && board->next_col == -1) return;

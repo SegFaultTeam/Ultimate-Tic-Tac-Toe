@@ -242,7 +242,7 @@ bool cons_of_move_diagonale(big_board * board, int row, int col, tic_tac_toe use
     for(int i = 0; i < 4; i++) {
         int rows = corners[i][0];
         int cols = corners[i][1];
-        if(board->boards[rows][cols].cells[row][col] == user) userCount++;
+        if(board->boards[row][col].cells[rows][cols] == user) userCount++;
     }
     if(userCount > 2) return false;
     return true;
@@ -254,6 +254,7 @@ bool cons(big_board * board, int row, int col, tic_tac_toe user) {
 void absolute_fallback(big_board * board, tic_tac_toe comp) {
     for(int bigRows = 0; bigRows < 3; bigRows++) { //picking first non empty
             for(int bigCols = 0; bigCols < 3; bigCols++) {
+                if(board->boards[bigRows][bigCols].winner != EMPTY) continue;
                 for(int smallRows = 0; smallRows < 3; smallRows++) {
                     for(int smallCols = 0; smallCols < 3; smallCols++){
                         if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY) {
@@ -284,7 +285,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
             board->boards[1][1].cells[1][1] = comp;
             board->next_col = 1;
             board->next_row = 1;
-            winner_cell_next_small_board_checker(board);
             return;
         }
 
@@ -295,7 +295,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 board->boards[bigRows][bigCols].cells[1][1] = comp;
                 board->next_col = 1;
                 board->next_row = 1;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
         } 
@@ -305,7 +304,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[bigRows][bigCols].cells[1][1] = comp;
                     board->next_row = 1;
                     board->next_col = 1;
-                    winner_cell_next_small_board_checker(board);
+
                     return;
                 }
             }
@@ -320,7 +319,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                         board->boards[bigRows][bigCols].cells[rows][cols] = comp;
                         board->next_col = cols;
                         board->next_row = rows;
-                        winner_cell_next_small_board_checker(board);
                         return;
                     }
                 }
@@ -335,7 +333,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
                             board->next_row = smallRows;
                             board->next_col = smallCols;
-                            winner_cell_next_small_board_checker(board);
                             return;
                         }
                     }
@@ -351,7 +348,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
             board->boards[board->next_row][board->next_col].cells[1][1] = comp;
             board->next_row = 1;
             board->next_col = 1;
-            winner_cell_next_small_board_checker(board);
             return;
         }
        
@@ -362,7 +358,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                 board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                 board->next_row = rows;
                 board->next_col = cols;
-                winner_cell_next_small_board_checker(board);
                 return;
             } 
         }
@@ -372,7 +367,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                     board->next_row = rows;
                     board->next_col = cols;
-                    winner_cell_next_small_board_checker(board);
                     return;
                 }
             }
@@ -384,7 +378,6 @@ void fallback(big_board * board, tic_tac_toe comp) {
                     board->boards[board->next_row][board->next_col].cells[rows][cols] = comp;
                     board->next_row = rows;
                     board->next_col = cols;
-                    winner_cell_next_small_board_checker(board);
                     return;
                 }
             }
@@ -394,6 +387,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
 }
 
 void computer_logic(big_board *board, tic_tac_toe comp) {
+    winner_cell_next_small_board_checker(board);
     tic_tac_toe user = comp == O ? X : O;
 
     if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board
@@ -609,7 +603,7 @@ bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
     }
 }
 
-void free_board(big_board *board){
-    free(board);
-    board = NULL;
+void free_board(big_board **board){
+    free(*board);
+    *board = NULL;
 }

@@ -59,22 +59,22 @@ int main(void) {
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
                 if(count_wins == 9) {
                     if(win_case(DRAW, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
@@ -95,22 +95,22 @@ int main(void) {
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
                 if(count_wins == 9) {
                     if(win_case(DRAW, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
@@ -132,22 +132,22 @@ int main(void) {
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
                 if(count_wins == 9) {
                     if(win_case(DRAW, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }
@@ -176,11 +176,11 @@ int main(void) {
                 if(win_var != EMPTY) {
                     if(win_case(win_var, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
 
                     }
@@ -188,11 +188,11 @@ int main(void) {
                 if(count_wins == 9) {
                     if(win_case(DRAW, gamer)){
                         first_move = true;
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         continue;
                     }else{
                         printf("BYE\n");
-                        free_board(bigBoard);
+                        free_board(&bigBoard);
                         return 42;
                     }
                 }

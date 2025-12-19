@@ -415,7 +415,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         } else countComp++;
                     }
 
-                    if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                    if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = emptyCol;
@@ -436,7 +436,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         } else countComp++;
                     }
 
-                    if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+                    if(emptyRow != -1 && ((countComp == 2 && countUser == 0))) {
                         board->boards[bigRow][bigCol].cells[emptyRow][smallCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = smallCol;
@@ -460,7 +460,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 } else countComp++;
             }
 
-            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
@@ -481,7 +481,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 } else countComp++;
             }
 
-            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
@@ -507,7 +507,7 @@ else { //second case if computer is limited in one particular board
             else countComp++;
         }
 
-            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
@@ -529,7 +529,7 @@ else { //second case if computer is limited in one particular board
             else if(board->boards[board->next_row][board->next_col].cells[smallRow][smallCol] == user) countUser++;
             else countComp++;
         }
-        if(emptyRow != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+        if(emptyRow != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][smallCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = smallCol;
@@ -552,7 +552,7 @@ else { //second case if computer is limited in one particular board
                 } else countComp++;
             }
 
-            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
@@ -573,7 +573,7 @@ else { //second case if computer is limited in one particular board
                 } else countComp++;
             }
 
-            if(emptyCol != -1 && ((countComp == 2 && countUser == 0) || (countComp == 0 && countUser == 2))) {
+            if(emptyCol != -1 && ((countComp == 2 && countUser == 0))) {
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;

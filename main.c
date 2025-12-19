@@ -44,6 +44,7 @@ int main(void) {
                 snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", next_row(bigBoard), next_col(bigBoard));
             }           
             printf("%s", prompt); 
+            check_for_avi(bigBoard);
             while(!move_user(read_sz(), bigBoard, gamer.symbol)){
                 printf("We think your choise is incorrect, try again: ");
                 printf("%s", prompt);
@@ -161,6 +162,7 @@ int main(void) {
                 snprintf(prompt, sizeof prompt, "You can place just in [%d][%d], and just not taken cells: ", next_row(bigBoard), next_col(bigBoard));
             }           
             printf("%s", prompt); 
+            check_for_avi(bigBoard);
             while(!move_user(read_sz(), bigBoard, gamer.symbol)){
                 printf("We think your choise is incorrect, try again\n");
                 printf("%s", prompt);

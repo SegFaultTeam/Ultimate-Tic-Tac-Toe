@@ -269,13 +269,6 @@ void absolute_fallback(big_board * board, tic_tac_toe comp) {
             
         }
 }
-void winner_cell_next_small_board_checker(big_board * board) {
-
-                if(board->boards[board->next_row][board->next_col].winner != EMPTY) {
-        board->next_row = -1;
-        board->next_col = -1;
-                }
-}
 void fallback(big_board * board, tic_tac_toe comp) { 
     tic_tac_toe user = comp == O ? X : O;
     int corners[4][2] = {{0,0}, {0,2}, {2,0}, {2,2}};
@@ -387,7 +380,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
 }
 
 void computer_logic(big_board *board, tic_tac_toe comp) {
-    winner_cell_next_small_board_checker(board);
+    check_for_avi(board);
     tic_tac_toe user = comp == O ? X : O;
 
     if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board
@@ -413,7 +406,6 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = emptyCol;
-                        winner_cell_next_small_board_checker(board);
                            return;
                     }
                 }
@@ -434,7 +426,6 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                         board->boards[bigRow][bigCol].cells[emptyRow][smallCol] = comp;
                         board->next_row = emptyRow;
                         board->next_col = smallCol;
-                        winner_cell_next_small_board_checker(board);
                         return;
                     }
                 }
@@ -458,7 +449,6 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
 
@@ -479,7 +469,6 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
                 board->boards[bigRow][bigCol].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
         }
@@ -505,7 +494,6 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
         
@@ -527,7 +515,6 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][smallCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = smallCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
     }
@@ -550,7 +537,6 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
 
@@ -571,12 +557,12 @@ else { //second case if computer is limited in one particular board
                 board->boards[board->next_row][board->next_col].cells[emptyRow][emptyCol] = comp;
                 board->next_row = emptyRow;
                 board->next_col = emptyCol;
-                winner_cell_next_small_board_checker(board);
                 return;
             }
 }
 //if there are none, calling fallback
             fallback(board, comp);
+            return;
 }
 
 

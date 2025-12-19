@@ -269,13 +269,11 @@ void absolute_fallback(big_board * board, tic_tac_toe comp) {
         }
 }
 void winner_cell_next_small_board_checker(big_board * board) {
-        for(int smallRows = 0; smallRows < 3; smallRows++) {
-            for(int smallCols = 0; smallCols < 3; smallCols++){
-                if(board->boards[board->next_row][board->next_col].cells[smallRows][smallCols] == EMPTY) return;
-            }
-        }
+
+                if(board->boards[board->next_row][board->next_col].winner != EMPTY) {
         board->next_row = -1;
         board->next_col = -1;
+                }
 }
 void fallback(big_board * board, tic_tac_toe comp) { 
     tic_tac_toe user = comp == O ? X : O;

@@ -8,8 +8,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_GAMES OFF CACHE BOOL "" FORCE)
 
-add_subdirectory(raylib)
-
 add_executable(utt main.c board.c play.c talking_with_user.c)
 
-target_link_libraries(utt raylib)
+target_link_libraries(utt)

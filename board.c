@@ -10,7 +10,6 @@
 #define RED   "\033[0;031m"
 #define BOLD_RED "\033[1;31m"
 #define GREEN "\033[1;32m"
-// #include "raylib.h"
 
 typedef enum{
     X,
@@ -47,11 +46,11 @@ big_board * init(void) { //initting board with EMPTY type
         exit(EXIT_FAILURE);
     }
     for(int bigRow = 0; bigRow < 3; bigRow++) {
-        for(int smallRow = 0; smallRow < 3; smallRow++) {
-            for(int bigCol = 0; bigCol < 3; bigCol++) {
+        for(int bigCol = 0; bigCol < 3; bigCol++) {
+            for(int smallRow = 0; smallRow < 3; smallRow++) {
                 for(int smallCol = 0; smallCol < 3; smallCol++) {
-                    bigBoard->boards[bigRow][smallRow].cells[bigCol][smallCol] = EMPTY;
-                    bigBoard->boards[bigRow][smallRow].winner = EMPTY;
+                    bigBoard->boards[bigRow][bigCol].cells[smallRow][smallCol] = EMPTY;
+                    bigBoard->boards[bigRow][bigCol].winner = EMPTY;
                 }
             }
         }
@@ -70,6 +69,20 @@ void print_big_o(int row, bool userWinned) {
     if(row == 1) printf("%s", userWinned ? GREEN"    O  O    "RESET :BOLD_RED"    O  O    "RESET);
     if(row == 2) printf("%s", userWinned ? GREEN"    OOOO    "RESET :BOLD_RED"    OOOO    "RESET);
 }
+void computer_move(big_board *board,
+                   int bigRow, int bigCol,
+                   int smallRow, int smallCol,
+                   tic_tac_toe comp)
+{
+    board->boards[bigRow][bigCol].cells[smallRow][smallCol] = comp;
+    board->next_row = smallRow;
+    board->next_col = smallCol;
+
+    int move = bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1;
+    printf("Компьютер походил в клетку: %d\n", move);
+    usleep(1000000);
+}
+
 void draw(big_board *board, tic_tac_toe user) { // console version of drawing func
     tic_tac_toe comp = user == O ? X  : O;
     int currentRow, currentCol;
@@ -79,9 +92,10 @@ void draw(big_board *board, tic_tac_toe user) { // console version of drawing fu
     for(int bigRow = 0; bigRow < 3; bigRow++) {
     for(int smallRow = 0; smallRow < 3; smallRow++) {
     for(int bigCol = 0; bigCol < 3; bigCol++) {
-        if(board->boards[bigRow][bigCol].winner != EMPTY) {
+        if(board->boards[bigRow][bigCol].winner != EMPTY && board->boards[bigRow][bigCol].winner != DRAW) {
             bool userWinned = board->boards[bigRow][bigCol].winner == user ? true : false;
             board->boards[bigRow][bigCol].winner == X ? print_big_x(smallRow, userWinned) : print_big_o(smallRow, userWinned);
+            
             
         } else {
         for(int smallCol = 0; smallCol < 3; smallCol++) {
@@ -210,6 +224,7 @@ tic_tac_toe check_full(const big_board *board){
 }
 
 void check_for_avi(big_board *board){
+    if(board->next_row == -1 && board->next_col == -1) return;
     if(board->boards[board->next_row][board->next_col].winner != EMPTY){
         board->next_row = -1;
         board->next_col = -1;
@@ -261,6 +276,10 @@ void absolute_fallback(big_board * board, tic_tac_toe comp) {
                             board->boards[bigRows][bigCols].cells[smallRows][smallCols] = comp;
                             board->next_row = smallRows;
                             board->next_col = smallCols;
+                            check_for_avi(board);
+                            computer_move(board, bigRows, bigCols, smallRows, smallCols, comp);
+                            printf("ABSOLUTE FALLBACK WORKED\n");
+                            usleep(1000000);
                             return;
                         }
                     }
@@ -320,6 +339,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
 
           for(int bigRows = 0; bigRows < 3; bigRows++) { //picking first non empty
             for(int bigCols = 0; bigCols < 3; bigCols++) {
+                if(board->boards[bigRows][bigCols].winner != EMPTY) continue;
                 for(int smallRows = 0; smallRows < 3; smallRows++) {
                     for(int smallCols = 0; smallCols < 3; smallCols++){
                         if(board->boards[bigRows][bigCols].cells[smallRows][smallCols] == EMPTY && cons(board, smallRows, smallCols, user)) {
@@ -376,6 +396,7 @@ void fallback(big_board * board, tic_tac_toe comp) {
             }
         }
     }
+
     absolute_fallback(board, comp);
 }
 
@@ -386,6 +407,7 @@ void computer_logic(big_board *board, tic_tac_toe comp) {
     if(board->next_col == -1 && board->next_row == -1) { //if computes is allowed to tick at any board
         for(int bigRow = 0; bigRow < 3; bigRow++) {
                 for(int bigCol = 0; bigCol < 3; bigCol++) {
+                    if(board->boards[bigRow][bigCol].winner != EMPTY) continue;
                     
                     for(int smallRow = 0; smallRow < 3; smallRow++) { //first case, searching if in row there are two X or O, setting this as a priority one
                          int emptyRow = -1;

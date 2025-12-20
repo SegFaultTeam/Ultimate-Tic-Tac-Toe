@@ -38,6 +38,7 @@ int main(void) {
         first_move = false;
         
         if(gamer.user == player_1){
+            check_for_avi(bigBoard);
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {
@@ -84,6 +85,7 @@ int main(void) {
             }
             draw(bigBoard, gamer.symbol);
             usleep(2000000);
+            check_for_avi(bigBoard);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
             draw(bigBoard,  gamer.symbol);
@@ -121,6 +123,7 @@ int main(void) {
             
         }else{
             usleep(2000000);
+            check_for_avi(bigBoard);
             computer_logic(bigBoard, invert_symbol(gamer.symbol));
             check_for_avi(bigBoard);
             draw(bigBoard, gamer.symbol);
@@ -155,7 +158,7 @@ int main(void) {
             } else {
                 draw(bigBoard, gamer.symbol);
             }
-            
+            check_for_avi(bigBoard);
             if (check_1_1(bigBoard)) {
                 snprintf(prompt, sizeof prompt, "You can place whenever you want, except already chosen position: ");
             } else {

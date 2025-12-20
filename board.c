@@ -69,19 +69,6 @@ void print_big_o(int row, bool userWinned) {
     if(row == 1) printf("%s", userWinned ? GREEN"    O  O    "RESET :BOLD_RED"    O  O    "RESET);
     if(row == 2) printf("%s", userWinned ? GREEN"    OOOO    "RESET :BOLD_RED"    OOOO    "RESET);
 }
-void computer_move(big_board *board,
-                   int bigRow, int bigCol,
-                   int smallRow, int smallCol,
-                   tic_tac_toe comp)
-{
-    board->boards[bigRow][bigCol].cells[smallRow][smallCol] = comp;
-    board->next_row = smallRow;
-    board->next_col = smallCol;
-
-    int move = bigRow * 27 + bigCol * 9 + smallRow * 3 + smallCol + 1;
-    printf("Компьютер походил в клетку: %d\n", move);
-    usleep(1000000);
-}
 
 void draw(big_board *board, tic_tac_toe user) { // console version of drawing func
     tic_tac_toe comp = user == O ? X  : O;
@@ -238,7 +225,7 @@ bool cons_of_move_row(big_board * board, int row, int col, tic_tac_toe user) {
             if(board->boards[row][col].cells[smallRow][smallCol] == user) userCount++;
         }
     }
-    if(userCount > 0) return false;
+    if(userCount > 1) return false;
     return true;
 }
 bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
@@ -248,7 +235,7 @@ bool cons_of_move_col(big_board * board, int row, int col, tic_tac_toe user) {
             if(board->boards[row][col].cells[smallRow][smallCol] == user) userCount++;
         }
     }
-    if(userCount > 0) return false;
+    if(userCount > 1) return false;
     return true;
 } 
 bool cons_of_move_diagonale(big_board * board, int row, int col, tic_tac_toe user) {
@@ -259,7 +246,7 @@ bool cons_of_move_diagonale(big_board * board, int row, int col, tic_tac_toe use
         int cols = corners[i][1];
         if(board->boards[row][col].cells[rows][cols] == user) userCount++;
     }
-    if(userCount > 2) return false;
+    if(userCount > 1) return false;
     return true;
 }
 bool cons(big_board * board, int row, int col, tic_tac_toe user) {
@@ -277,9 +264,6 @@ void absolute_fallback(big_board * board, tic_tac_toe comp) {
                             board->next_row = smallRows;
                             board->next_col = smallCols;
                             check_for_avi(board);
-                            computer_move(board, bigRows, bigCols, smallRows, smallCols, comp);
-                            printf("ABSOLUTE FALLBACK WORKED\n");
-                            usleep(1000000);
                             return;
                         }
                     }

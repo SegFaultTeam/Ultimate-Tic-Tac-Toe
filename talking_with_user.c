@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "board.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 char read_char(const char *prompt){
     char c;
@@ -10,6 +11,7 @@ char read_char(const char *prompt){
         printf("%s", prompt);
         fflush(stdout); 
         c = getchar();
+        if(c == EOF) exit(EXIT_FAILURE);
         while ((ch = getchar()) != '\n' && ch != EOF);
         if (c == 't' || c == 'T' || c == 'e' || c == 'E') return c;
 
@@ -20,7 +22,11 @@ char read_char(const char *prompt){
 
 size_t read_sz(void) {
   long input;
-  while (scanf("%ld", &input) != 1) {
+  size_t rc;
+  while ((rc = scanf("%ld", &input)) != 1) {
+    if(rc == EOF){
+      exit(EXIT_FAILURE);
+    }
     printf("INVALID: ");
     while (getchar() != '\n')
       ;  // clear buffer
@@ -35,6 +41,7 @@ char read_yes_no(void){
     int ch;
     while(1){
         c = getchar();
+        if(c == EOF) exit(EXIT_FAILURE);
         while ((ch = getchar()) != '\n' && ch != EOF);
         if (c == 'y' || c == 'Y' || c == 'n' || c == 'N') return c;
 

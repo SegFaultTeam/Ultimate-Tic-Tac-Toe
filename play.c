@@ -10,6 +10,7 @@ typedef enum{
     TAILS
 }coin;
 
+//making random seed
 static void seed_prng(void) {
   static bool seed = false;
   if (!seed) {
@@ -20,6 +21,7 @@ static void seed_prng(void) {
   }
 }
 
+//using random seed for coin
 int randkom(int minimum, int maxaimum) {
   seed_prng();
   return rand() / (RAND_MAX / (maxaimum - minimum + 1) + 1) + minimum;

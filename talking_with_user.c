@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+//func for checking input for coin
 char read_char(const char *prompt){
     char c;
     int ch;
@@ -19,7 +20,7 @@ char read_char(const char *prompt){
     }
 }
 
-
+//func for receiving a integer for big board
 size_t read_sz(void) {
   long input;
   size_t rc;
@@ -36,6 +37,7 @@ size_t read_sz(void) {
   return (size_t)input;
 }
 
+//func for asking yes or no for new game+
 char read_yes_no(void){
     char c;
     int ch;
@@ -49,6 +51,8 @@ char read_yes_no(void){
     }
 
   } 
+
+// telling to user about result of the game and asking   
 bool win_case(tic_tac_toe win_result, def_for_user player){
     if(win_result == DRAW){
         printf("IT'S A DRAW, GOOD GAME, WANT TO TRY AGAIN(y/n): ");

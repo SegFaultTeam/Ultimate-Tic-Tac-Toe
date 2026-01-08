@@ -36,7 +36,6 @@ int main(void) {
             draw(bigBoard, gamer.symbol);
         }
         first_move = false;
-        
         if(gamer.user == player_1){
             check_for_avi(bigBoard);
             if (check_1_1(bigBoard)) {
@@ -69,6 +68,7 @@ int main(void) {
                         return 42;
                     }
                 }
+                //easy check for draw
                 if(count_wins == 9) {
                     if(win_case(DRAW, gamer)){
                         first_move = true;

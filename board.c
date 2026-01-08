@@ -115,12 +115,15 @@ printf(CYAN"--------------+----------------+--------------\n"RESET);
     }
 
 }
+
+//func for iverting symbol, if user is x comp is O, if comp is x user is O
 tic_tac_toe invert_symbol(tic_tac_toe s) {
     if (s == X) return O;
     if (s == O) return X;
     else return EMPTY;
 }
 
+//case 1_1 means that it's you can place whenewer you wanr
 bool check_1_1(big_board *boards){
     if(boards->next_col == -1 && boards->next_row == -1){
         return true;
@@ -128,6 +131,7 @@ bool check_1_1(big_board *boards){
     return false;
 }
 
+//just giving you value, nothing special
 int next_col(big_board *boards){
     return boards->next_col;
 }
@@ -136,6 +140,7 @@ int next_row(big_board *boards){
     return boards->next_row;
 }
 
+//check win in small board, and placing winner
 bool check_win(big_board *board){
     for(int bigR = 0; bigR < 3; bigR++){
         for(int bigC = 0; bigC < 3; bigC++){
@@ -195,7 +200,7 @@ bool check_win(big_board *board){
     return false;
 }
 
-
+//check for win in full game by checking small winners
 tic_tac_toe check_full(const big_board *board){
     if(board->boards[1][1].winner != EMPTY &&
        board->boards[1][1].winner != DRAW){
@@ -223,7 +228,7 @@ tic_tac_toe check_full(const big_board *board){
     return EMPTY;  
 }
 
-
+//return to case 1_1*
 void check_for_avi(big_board *board){
     if(board->next_row == -1 && board->next_col == -1) return;
     if(board->boards[board->next_row][board->next_col].winner != EMPTY){
@@ -585,7 +590,7 @@ else { //second case if computer is limited in one particular board
             return;
 }
 
-
+//taking move from user in two digits format, making it to [][] format, checking, placing move is it's correct
 bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
     if(n > 81 || n < 1) return false;
     n--;
@@ -608,7 +613,7 @@ bool move_user(size_t n, big_board *boards, tic_tac_toe symbol_for_moving){
         return true;
     }
 }
-
+//freeing board, nothing really special
 void free_board(big_board **board){
     free(*board);
     *board = NULL;
